@@ -1,0 +1,156 @@
+name: agent_pet
+description: A new Flutter project.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http:
+  path_provider:
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2
+  provider: ^4.0.3
+  connectivity: 0.4.6+2
+  dio:
+  url_launcher:
+  file_picker: 1.4.3+2
+  flutter_html: 0.11.1
+  google_maps_flutter: 0.5.22
+  flutter_facebook_login: 3.0.0
+  google_sign_in: 4.4.4
+  share: 0.6.4+3
+  image_picker: 0.6.7+2
+
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/social/facebook-logo.png
+    - assets/social/google-logo.png
+    - assets/social/twitter-logo.png
+    - assets/social/whatsapp-logo.png
+    - assets/social/link-logo.png
+    - assets/relocate-bg.jpg
+    - assets/agent-pet-logo.png
+    - assets/agent-pet-background.png
+    - assets/background.png
+    # Icons
+    - assets/icons/bird.png
+    - assets/icons/bowl.png
+    - assets/icons/cart.png
+    - assets/icons/cat.png
+    - assets/icons/dog.png
+    - assets/icons/mate.png
+    - assets/icons/plane.png
+    - assets/icons/veterinary.png
+    - assets/icons/pet-store.png
+    - assets/icons/buy-sell-icon.png
+    - assets/icons/fish.png
+    - assets/icons/cat-add-pet.png
+    - assets/icons/new.png
+    - assets/icons/collar.png
+    - assets/icons/map-marker.png
+    - assets/icons/age.png
+    - assets/icons/vaccination.png
+    - assets/icons/pet-group.png
+    - assets/icons/featured.png
+    - assets/icons/popular.png
+    - assets/icons/user.png
+    - assets/icons/footer-main.png
+    - assets/icons/horse.png
+    - assets/icons/cow.png
+    - assets/icons/lion.png
+    - assets/icons/rabbit.png
+    - assets/icons/monkey.png
+    - assets/icons/snake.png
+    - assets/icons/parrot.png
+    - assets/icons/lizard.png
+    - assets/icons/hamster.png
+    - assets/icons/frog.png
+    - assets/icons/pony.png
+    - assets/icons/turtle.png
+    - assets/icons/iguana.png
+    - assets/icons/ferret.png
+    - assets/icons/crocodiles.png
+    - assets/icons/pig.png
+    - assets/icons/shop-by-brand.png
+    - assets/icons/paw.png
+    - assets/about-us-banner-image.jpg
+    - assets/how-it-works-img1.jpg
+    - assets/how-it-works-img2.jpg
+    - assets/how-it-works-img3.jpg
+    - assets/icons/pet-accessories.png
+    - assets/icons/pet-food.png
+    - assets/icons/buy-sell-pets.png
+    - assets/icons/adopt-pets.png
+    # Banners
+    - assets/banners/bird-food.png
+    - assets/banners/cat-food.png
+    - assets/banners/dog-food.png
+    - assets/banners/fish-food.png
+    - assets/banners/web-banner-bird.png
+    - assets/banners/web-banner-cat.png
+    - assets/banners/web-banner-dog.png
+    - assets/banners/web-banner-fish.png
+
+  #    - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: SourceSansPro
+      fonts:
+        - asset: assets/fonts/SourceSansPro-Regular.otf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
