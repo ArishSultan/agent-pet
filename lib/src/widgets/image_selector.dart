@@ -123,8 +123,9 @@ class _ImageSelectorState extends State<ImageSelector> {
             onPressed: () async {
               Map<String, String> tempImages;
               try {
-                tempImages = await FilePicker.getMultiFilePath(
-                    type: FileType.IMAGE, fileExtension: '',);
+                /// TODO: Fix FilePicker Breaking Changes
+                // tempImages = await FilePicker.getMultiFilePath(
+                //     type: FileType.IMAGE, fileExtension: '',);
               } on PlatformException catch (e) {
                 // Message Display.
               }

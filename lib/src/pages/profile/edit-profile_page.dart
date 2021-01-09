@@ -138,8 +138,9 @@ class _EditFieldsState extends State<EditFields> {
                 onTap: () async {
                   Map<String, String> tempImage;
                   try {
-                    tempImage = await FilePicker.getMultiFilePath(
-                        type: FileType.IMAGE, fileExtension: '');
+                    /// TODO: Fix Breaking Changes of FilePicker.
+                    // tempImage = await FilePicker.getMultiFilePath(
+                    //     type: FileType.IMAGE, fileExtension: '');
                   } on PlatformException catch (e) {
 //                    print(e.message);
                     // Message Display.
