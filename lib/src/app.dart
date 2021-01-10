@@ -1,46 +1,24 @@
-import 'package:agent_pet/src/pages/base_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'utils/connectivity-service.dart';
+import 'package:agent_pet/src/base/theme.dart';
+import 'package:agent_pet/src/pages/base_page.dart';
 
+class App extends StatelessWidget {
+  static const appName = 'Agent Pet';
 
-class AgentPetApp extends StatelessWidget {
+  static Future<void> initializeAndRun() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    return runApp(const App._());
+  }
+
+  const App._();
+
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<ConnectivityStatus>(
-      create: (context) => ConnectivityService().connectionStatusController.stream,
-      child: MaterialApp(
-        theme: ThemeData(
-          primaryColor: Color(0xFFFC4346),
-          fontFamily: 'SourceSansPro',
-          appBarTheme: AppBarTheme(
-            elevation: 0,
-          ),
+    return MaterialApp(
+      title: appName,
+      theme: AppTheme.data,
 
-          buttonTheme: ButtonThemeData(
-              textTheme: ButtonTextTheme.primary
-          ),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-              foregroundColor: Colors.white,
-              backgroundColor: Color(0xFFFC4346)
-          ),
-
-          accentColor: Colors.white,
-
-          textTheme: TextTheme(
-            display1: TextStyle(
-              color: Colors.white,
-              fontSize: 16
-            )
-          )
-        ),
-
-        debugShowCheckedModeBanner: false,
-
-        title: "Agent Pet",
-
-        home: BasePage(),
-      ),
+      home: BasePage(),
     );
   }
 }
