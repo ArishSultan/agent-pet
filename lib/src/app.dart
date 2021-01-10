@@ -18,7 +18,7 @@ class App extends StatelessWidget {
       title: appName,
       theme: AppTheme.data,
 
-      home: BasePage(),
+      home: HomePage(),
     );
   }
 }

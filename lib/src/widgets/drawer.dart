@@ -182,7 +182,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       ),
                       onTap: ()  {
                         AuthService().logOut();
-                        CustomNavigator.navigateTo(context, BasePage());
+                        // CustomNavigator.navigateTo(context, BasePage());
                       },
                     )
 
