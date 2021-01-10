@@ -413,7 +413,7 @@ class _PetStorePageState extends State<PetStorePage> with TickerProviderStateMix
           children: <TableRow>[
 
             TableRow(children: <Widget>[
-              _buildIcon('assets/icons/new.png', 'New Arrivals', () {
+              _buildIcon('assets/icons/new_tag.png', 'New Arrivals', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 0));
 //                _listing=0;
 //                setState(() {
