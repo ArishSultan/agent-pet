@@ -1,8 +1,11 @@
 import 'package:agent_pet/src/base/assets.dart';
 import 'package:agent_pet/src/pages/pet-store_page.dart';
+import 'package:agent_pet/src/ui/views/home_view.dart';
 import 'package:agent_pet/src/widgets/cart-badged-icon.dart';
 import 'package:agent_pet/src/widgets/drawer.dart';
+import 'package:agent_pet/src/widgets/home-category-pageview.dart';
 import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
+import 'package:agent_pet/src/widgets/search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -29,14 +32,18 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
           actions: [CartBadgedIcon(), SavedBadgeIcon()],
           title: Image.asset(Assets.logo, fit: BoxFit.cover, scale: 8),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(60),
+            child: Hero(tag: 'main_search_bar', child: SearchBar()),
+          ),
         ),
 
-        // body: ValueListenableBuilder(
-        //   valueListenable: _selectedView,
-        //   builder: (BuildContext context, value, Widget child) {
-        //     return PetStorePage();
-        //   },
-        // ),
+        body: ValueListenableBuilder(
+          valueListenable: _selectedView,
+          builder: (BuildContext context, value, Widget child) {
+            return HomeView();
+          },
+        ),
 
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
