@@ -27,7 +27,12 @@ class HomePage extends StatelessWidget {
         extendBody: true,
         appBar: AppBar(
           centerTitle: true,
-          actions: [CartBadgedIcon(), SavedBadgeIcon()],
+          actions: [
+            CartButtonBadged(),
+            FavoriteButtonBadged(),
+            // CartBadgedIcon(),
+            // SavedBadgeIcon(),
+          ],
           title: Image.asset(Assets.logo, fit: BoxFit.cover, scale: 8),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(60),
