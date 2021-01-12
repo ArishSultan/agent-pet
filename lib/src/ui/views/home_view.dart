@@ -6,45 +6,41 @@ import 'package:agent_pet/src/widgets/section-header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class _CategoryCell extends StatelessWidget {
-  final _PetCategory category;
+class _PetCategoryBlock extends SizedBox {
+  static const blockSize = 70.0;
+  static const buttonSize = blockSize - 10;
 
-  const _CategoryCell(this.category);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 70,
-      height: 70,
-      child: TextButton(
-        onPressed: () {},
-        style: TextButton.styleFrom(
-          minimumSize: Size(60, 60),
-          primary: Theme.of(context).primaryColor,
-        ),
-        child: Column(children: [
-          Expanded(
-              child: Image.asset(
-            category.image,
-            color: Theme.of(context).primaryColor,
-          )),
-          Text(
-            category.name,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w300,
-              color: Theme.of(context).primaryColor,
+  _PetCategoryBlock(_PetCategory cat)
+      : super(
+          width: blockSize,
+          height: blockSize,
+          child: TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              primary: AppTheme.primaryColor,
+              minimumSize: Size(buttonSize, buttonSize),
             ),
+            child: Column(children: [
+              Expanded(
+                  child: Image.asset(
+                cat.image,
+                color: AppTheme.primaryColor,
+              )),
+              Text(
+                cat.name,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w300,
+                  color: AppTheme.primaryColor,
+                ),
+              ),
+            ]),
           ),
-        ]),
-      ),
-    );
-  }
+        );
 }
 
 class _PetCategory {
-  final String name;
-  final String image;
+  final String name, image;
 
   const _PetCategory({this.name, this.image});
 
@@ -74,16 +70,33 @@ class _PetCategory {
   ];
 }
 
-class _PetsTable extends StatelessWidget {
+class _PetsCategoriesGrid extends StatelessWidget {
+  final _page = ValueNotifier(0);
+  final _type = ValueNotifier(0);
+
+  final _selectedStyle = TextButton.styleFrom(
+    primary: Colors.white,
+    shape: StadiumBorder(),
+    backgroundColor: Colors.black,
+    visualDensity: VisualDensity.compact,
+  );
+  final _unselectedStyle = TextButton.styleFrom(
+    primary: Colors.black,
+    shape: StadiumBorder(),
+    visualDensity: VisualDensity.compact,
+    // side: BorderSide(color: Colors.black),
+  );
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        var rows = 2;
-        var pages = 0;
-        final itemsInRow = (constraints.maxWidth - 25) ~/ 75;
-        final space =
-            ((constraints.maxWidth - 30) - (itemsInRow * 70)) / itemsInRow;
+        var rows = 2, pages = 0;
+        final itemsInRow =
+            (constraints.maxWidth - 25) ~/ (_PetCategoryBlock.blockSize + 5);
+        final space = ((constraints.maxWidth - 30) -
+                (itemsInRow * _PetCategoryBlock.blockSize)) /
+            itemsInRow;
 
         if (itemsInRow < _PetCategory.all.length) {
           pages = (_PetCategory.all.length / (itemsInRow * 2)).ceil();
@@ -91,34 +104,91 @@ class _PetsTable extends StatelessWidget {
           rows = 1;
         }
 
-        return SizedBox(
-          height: 150 + space + space,
-          child: PageView(children: [
-            for (var i = 0; i < pages; ++i)
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(children: [
-                  for (var j = 0; j < rows; ++j)
-                    Expanded(
-                      child: Row(
-                          children: List.generate(itemsInRow, (index) {
-                        print(j);
-                        final _index =
-                            index + (j * itemsInRow) + (i * itemsInRow * 2);
-                        if (_index < _PetCategory.all.length) {
-                          return Expanded(
-                            child: Center(
-                                child: _CategoryCell(_PetCategory.all[_index])),
-                          );
-                        } else {
-                          return Spacer();
-                        }
-                      })),
-                    )
-                ]),
-              )
-          ]),
-        );
+        return Wrap(children: [
+          ValueListenableBuilder(
+            valueListenable: _type,
+            builder: (context, val, child) => Row(
+              children: [
+                TextButton(
+                  child: Text('Pets'),
+                  onPressed: () => _type.value = 0,
+                  style: val == 0 ? _selectedStyle : _unselectedStyle,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: TextButton(
+                    child: Text('Foods'),
+                    onPressed: () => _type.value = 1,
+                    style: val == 1 ? _selectedStyle : _unselectedStyle,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _type.value = 2,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text('Accessories'),
+                  ),
+                  style: val == 2 ? _selectedStyle : _unselectedStyle,
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
+          ),
+          SizedBox(
+            height: rows == 2 ? 150 + space + space : 90,
+            child: PageView(
+              children: [
+                for (var i = 0; i < pages; ++i)
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(children: [
+                      for (var j = 0; j < rows; ++j)
+                        Expanded(
+                          child: Row(
+                              children: List.generate(itemsInRow, (index) {
+                            print(j);
+                            final _index =
+                                index + (j * itemsInRow) + (i * itemsInRow * 2);
+                            if (_index < _PetCategory.all.length) {
+                              return Expanded(
+                                child: Center(
+                                    child: _PetCategoryBlock(
+                                        _PetCategory.all[_index])),
+                              );
+                            } else {
+                              return Spacer();
+                            }
+                          })),
+                        )
+                    ]),
+                  )
+              ],
+              onPageChanged: (val) => _page.value = val,
+            ),
+          ),
+          ValueListenableBuilder(
+            valueListenable: _page,
+            builder: (context, val, child) => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (var i = 0; i < pages; ++i)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2.5, 0, 2.5, 10),
+                    child: Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: val == i
+                            ? AppTheme.primaryColor
+                            : Colors.grey.shade400,
+                      ),
+                    ),
+                  )
+              ],
+            ),
+          ),
+        ]);
       },
     );
   }
@@ -182,29 +252,15 @@ class _HomeViewAction extends StatelessWidget {
         ),
       ]),
     );
-    // return ListTile(
-    //   onTap: () {
-    //     print('here');
-    //   },
-    //   dense: true,
-    //   // padding
-    //   contentPadding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
-    //   leading: CircleAvatar(
-    //     radius: 25,
-    //     backgroundColor: color,
-    //     child: Image.asset(image, scale: 2.2, color: Colors.white),
-    //   ),
-    //
-    //   title: Text(
-    //     title,
-    //     style: TextStyle(
-    //       color: AppTheme.primaryColor,
-    //       fontWeight: FontWeight.bold,
-    //     ),
-    //   ),
-    //   subtitle: Text(subtitle),
-    //   // trailing: Icon(CupertinoIcons.chevron_right),
-    // );
+  }
+}
+
+class _PetCategoryView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(children: [
+      _PetsCategoriesGrid(),
+    ]);
   }
 }
 
@@ -222,10 +278,10 @@ class HomeView extends StatelessWidget {
           return Future.delayed(Duration(seconds: 5));
         },
         child: ListView(
-          padding: const EdgeInsets.only(bottom: 80),
+          padding: const EdgeInsets.only(bottom: 90),
           children: [
             SectionHeader(lang.selectCategory),
-            _PetsTable(),
+            _PetCategoryView(),
             SectionHeader(lang.ourServices),
             _HomeViewAction(
               image: Image.asset(
@@ -286,6 +342,25 @@ class HomeView extends StatelessWidget {
                 // CustomNavigator.navigateTo(context, PetAndVetPage());
               },
             ),
+            SectionHeader(
+              'Featured Pets',
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  textStyle: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  padding: EdgeInsets.zero,
+                  primary: AppTheme.primaryColor,
+                  visualDensity: VisualDensity.compact,
+                  side: BorderSide(color: AppTheme.primaryColor),
+                ),
+                child: Text('View All'),
+                onPressed: () {
+                  /// TODO: Add Navigation here.
+                },
+              ),
+            )
           ],
         ),
       ),
