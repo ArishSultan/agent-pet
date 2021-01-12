@@ -1,11 +1,40 @@
 {
-    "@@locale": "en",
-    "home": "Home",
-    "@home": {},
-    "petStore": "Pet Store",
-    "@petStore": {},
-    "adoptPet": "Adopt a Pet",
-    "@adoptPet": {},
-    "relocation": "Relocation",
-    "@relocation": {}
+  "@@locale": "en",
+  "home": "Home",
+  "@home": {},
+  "petStore": "Pet Store",
+  "@petStore": {},
+  "adoptPet": "Adopt a Pet",
+  "@adoptPet": {},
+  "relocation": "Relocation",
+  "@relocation": {},
+
+  "petStoreDetail": "A variety of Animal supplies and pet accessories.",
+  "@petStoreDetail": {},
+
+  "ourServices": "Our Services",
+  "@ourServices": {},
+  "selectCategory": "Select a Category",
+  "@selectCategory": {},
+
+
+  "petBuySell": "Pet Buy/Sell",
+  "@petBuySell": {},
+  "petBuySellDetail": "Buy & Sell Pets Online In Pakistan.",
+  "@petBuySellDetail": {},
+
+  "petAdoption": "Pet Adoption / Match Making",
+  "@petAdoption": {},
+  "petAdoptionDetail": "Find pets for adoption and match making in Pakistan.",
+  "@petAdoptionDetail": {},
+
+  "petRelocation": "Pet Relocation",
+  "@petRelocation": {},
+  "petRelocationDetail": "Agent Pet Specializes in relocation of your pet intercity, interstates, import and export for whatever pet you need.",
+  "@petRelocationDetail": {},
+
+  "petAndVet": "Pets And Vets",
+  "@petAndVet": {},
+  "petAndVetDetail": "Find Pet and Vet clinics in your area.",
+  "@petAndVetDetail": {}
 }

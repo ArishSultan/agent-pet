@@ -23,6 +23,10 @@ abstract class Assets {
   static const iguana = 'assets/icons/animals/iguana.png';
   static const ferret = 'assets/icons/animals/ferret.png';
   static const pig = 'assets/icons/animals/pig.png';
+  static const turtle = 'assets/icons/animals/turtle.png';
+  static const snake = 'assets/icons/animals/snake.png';
+  static const frog = 'assets/icons/animals/frog.png';
+  static const horse = 'assets/icons/animals/horse.png';
   static const crocodile = 'assets/icons/animals/crocodile.png';
   static const rabbit = 'assets/icons/animals/rabbit.png';
   static const parrot = 'assets/icons/animals/parrot.png';

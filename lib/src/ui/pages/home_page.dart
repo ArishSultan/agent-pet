@@ -10,6 +10,9 @@ import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
 
 class HomePage extends StatelessWidget {
   final _selectedView = ValueNotifier(0);
+  static const _views = [
+    HomeView()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +30,7 @@ class HomePage extends StatelessWidget {
         extendBody: true,
         appBar: AppBar(
           centerTitle: true,
-          actions: [
-            CartButtonBadged(),
-            FavoriteButtonBadged(),
-            // CartBadgedIcon(),
-            // SavedBadgeIcon(),
-          ],
+          actions: [CartButtonBadged(), FavoriteButtonBadged()],
           title: Image.asset(Assets.logo, fit: BoxFit.cover, scale: 8),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(60),
@@ -42,7 +40,7 @@ class HomePage extends StatelessWidget {
         body: ValueListenableBuilder(
           valueListenable: _selectedView,
           builder: (BuildContext context, value, Widget child) {
-            return HomeView();
+            return _views[0];
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -93,6 +91,7 @@ class _NavigationBar extends StatelessWidget {
       child: LocalizedView(
         builder: (context, lang) => BottomAppBar(
           notchMargin: 10,
+          clipBehavior: Clip.antiAlias,
           shape: CircularNotchedRectangle(),
           child: ValueListenableBuilder(
             valueListenable: notifier,
