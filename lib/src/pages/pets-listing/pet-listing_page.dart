@@ -20,7 +20,7 @@ class PetListing extends StatefulWidget {
   final String query;
   final String title;
 
-  PetListing({this.petTypeId,this.petName,this.listing,this.query,this.title});
+  PetListing({this.petTypeId,this.petName,this.listing = 0,this.query,this.title});
   @override
   _PetListingState createState() => _PetListingState();
 }

@@ -1,0 +1,11 @@
+{
+    "@@locale": "en",
+    "home": "Home",
+    "@home": {},
+    "petStore": "Pet Store",
+    "@petStore": {},
+    "adoptPet": "Adopt a Pet",
+    "@adoptPet": {},
+    "relocation": "Relocation",
+    "@relocation": {}
+}

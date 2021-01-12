@@ -234,7 +234,7 @@ class _PetStorePageState extends State<PetStorePage> with TickerProviderStateMix
                           tabBarButton(index: 15, image: 'ferret.png', title: 'Ferret',petTypeId: 7),
                           tabBarButton(index: 16, image: 'crocodiles.png', title: 'Crocodile',petTypeId: 14),
                           tabBarButton(index: 17, image: 'pig.png', title: 'Pig',petTypeId: 3409),
-                          tabBarButton(index: 18, image: 'horse.png', title: 'Horse',petTypeId: 9),
+                          tabBarButton(index: 18, image: 'pony.png', title: 'Horse',petTypeId: 9),
                           tabBarButton(index: 19, image: 'snake.png', title: 'Snake',petTypeId: 16),
                           tabBarButton(index: 20, image: 'frog.png', title: 'Frog',petTypeId: 18),
                           tabBarButton(index: 21, image: 'turtle.png', title: 'Turtle',petTypeId: 17),

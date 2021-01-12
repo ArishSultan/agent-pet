@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 
 import 'dots-indicator.dart';
 
+//
+
+
 class HomeCategoriesView extends StatefulWidget {
   @override
   _HomeCategoriesViewState createState() => _HomeCategoriesViewState();
@@ -240,7 +243,7 @@ class _HomeCategoriesViewState extends State<HomeCategoriesView> with TickerProv
                   ProductListing(listing: 10,petTypeId: 3409, petName: 'Guinea Pig',category: tabIndex == 1 ?  "pet-food" : 'pet-accessories',)
                   );
                 }),
-                _CategoryCell(image: 'assets/icons/horse.png', name: 'Horse', onPressed: () {
+                _CategoryCell(image: 'assets/icons/pony.png', name: 'Horse', onPressed: () {
                   CustomNavigator.navigateTo(context, tabIndex == 0 ?
                   PetListing(petTypeId: 9, petName: 'Horse',) :
                   ProductListing(listing: 10,petTypeId: 9, petName: 'Horse',category: tabIndex == 1 ?  "pet-food" : 'pet-accessories',)

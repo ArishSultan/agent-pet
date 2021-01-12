@@ -1,14 +1,12 @@
-import 'package:agent_pet/src/base/assets.dart';
-import 'package:agent_pet/src/pages/pet-store_page.dart';
-import 'package:agent_pet/src/ui/views/home_view.dart';
-import 'package:agent_pet/src/widgets/cart-badged-icon.dart';
-import 'package:agent_pet/src/widgets/drawer.dart';
-import 'package:agent_pet/src/widgets/home-category-pageview.dart';
-import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
-import 'package:agent_pet/src/widgets/search_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:agent_pet/src/base/assets.dart';
+import 'package:agent_pet/src/widgets/drawer.dart';
+import 'package:agent_pet/src/widgets/search_bar.dart';
+import 'package:agent_pet/src/ui/views/home_view.dart';
+import 'package:agent_pet/src/ui/views/localized_view.dart';
+import 'package:agent_pet/src/widgets/cart-badged-icon.dart';
+import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
 
 class HomePage extends StatelessWidget {
   final _selectedView = ValueNotifier(0);
@@ -17,13 +15,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-//         print(_page);
-//         if(_page!=0){
-//           _displayPage(0);
-//           return false;
-//         }
-// //        _displayPage(3);
-//         return true;
+        if (_selectedView.value > 0) {
+          _selectedView.value = 0;
+          return false;
+        } else {
+          return true;
+        }
       },
       child: Scaffold(
         drawer: DrawerWidget(),
@@ -37,145 +34,42 @@ class HomePage extends StatelessWidget {
             child: Hero(tag: 'main_search_bar', child: SearchBar()),
           ),
         ),
-
         body: ValueListenableBuilder(
           valueListenable: _selectedView,
           builder: (BuildContext context, value, Widget child) {
             return HomeView();
           },
         ),
-
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-          child: Image.asset("assets/icons/footer-main.png"),
-          elevation: 0,
-          onPressed: () {
-            // BottomNavigationBar
-            // LocalData.isSignedIn ? CustomNavigator.navigateTo(context, AddPetPage()) : CustomNavigator.navigateTo(context, LoginPage());
-          },
+        floatingActionButton: SizedBox(
+          width: 60,
+          height: 60,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 1,
+              padding: EdgeInsets.zero,
+              side: BorderSide(color: Colors.white, width: 2),
+              primary: Theme.of(context).primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: Column(children: [
+              Spacer(flex: 2),
+              Icon(CupertinoIcons.paw),
+              Text('Add Pet', style: TextStyle(fontSize: 11, letterSpacing: 0)),
+              Spacer(flex: 3),
+            ]),
+            onPressed: () {
+              // LocalData.isSignedIn ? CustomNavigator.navigateTo(context, AddPetPage()) : CustomNavigator.navigateTo(context, LoginPage());
+            },
+          ),
         ),
-
-        bottomNavigationBar: _NavigationBar(
-          notifier: _selectedView,
-        ),
-        // bottomNavigationBar: BottomAppBar(
-        //     notchMargin: 6,
-        //     clipBehavior: Clip.antiAlias,
-        //     shape: CircularNotchedRectangle(),
-        //     child: Row(children: [
-        //       TextButton(
-        //         child: Text('Home'),
-        //       )
-        //     ])
-        //     // BottomNavigationBar(
-        //     //   unselectedItemColor: Colors.grey,
-        //     //   // currentIndex: _page,
-        //     //   items: [
-        //     //     BottomNavigationBarItem(
-        //     //       label: 'Home',
-        //     //       icon: Icon(Icons.home),
-        //     //     ),
-        //     //     BottomNavigationBarItem(
-        //     //       label: 'Pet Store',
-        //     //       icon: Icon(Icons.store),
-        //     //     ),
-        //     //     BottomNavigationBarItem(
-        //     //       label: ' ',
-        //     //       icon: Icon(Icons.add),
-        //     //     ),
-        //     //     BottomNavigationBarItem(
-        //     //       label: 'Adopt a Pet',
-        //     //       icon: Image.asset(
-        //     //         "assets/icons/mate.png",
-        //     //         scale: 3,
-        //     //         // color: _page != 3 ? Colors.grey : Colors.primaries[0],
-        //     //       ),
-        //     //     ),
-        //     //     BottomNavigationBarItem(
-        //     //       label: 'Relocation',
-        //     //       icon: Image.asset("assets/icons/plane.png", scale: 3
-        //     //           // color: _page != 4 ? Colors.grey : Colors.primaries[0],
-        //     //           ),
-        //     //     ),
-        //     //   ],
-        //     //   type: BottomNavigationBarType.fixed,
-        //     //   // onTap: (val) => _displayPage(val ),
-        //     // ),
-        //     ),
+        bottomNavigationBar: _NavigationBar(notifier: _selectedView),
       ),
     );
   }
 }
-
-// import 'package:agent_pet/src/pages/auth/login_page.dart';
-// import 'package:agent_pet/src/pages/profile/saved_ads-page.dart';
-// import 'package:agent_pet/src/pages/relocation_page.dart';
-// import 'package:agent_pet/src/services/user-service.dart';
-// import 'package:agent_pet/src/utils/local-data.dart';
-// import 'package:agent_pet/src/widgets/badge.dart';
-// import 'package:agent_pet/src/widgets/cart-badged-icon.dart';
-// import 'package:agent_pet/src/widgets/drawer.dart';
-// import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
-// import 'package:flutter/material.dart';
-// import 'package:agent_pet/src/utils/custom-navigator.dart';
-// import 'add-or-edit-pet/main-add-or-edit-pet.dart';
-// import 'adopt-a-pet_page.dart';
-// import 'cart/main-cart.dart';
-// import 'home_page.dart';
-// import 'pet-store_page.dart';
-//
-// class BasePage extends StatefulWidget {
-//   @override
-//   _BasePageState createState() => _BasePageState();
-// }
-//
-// class _BasePageState extends State<BasePage> {
-//   var _page = 0;
-//   Widget _widget;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-// //    LocalData.loadData();
-//     _widget = HomePage();
-//     LocalData.reloadProfile();
-//     LocalData.reloadSavedAdsIds();
-//     CustomNavigator.registerBaseRouter(_displayPage);
-//   }
-//
-//   @override
-
-//   Widget build(BuildContext context) {
-
-//   }
-//
-//   _displayPage(val) {
-//     Widget page;
-//
-//     switch (val) {
-//       case 0:
-//         page = HomePage();
-//         break;
-//       case 1:
-//         page = PetStorePage();
-//         break;
-//       case 3:
-//         page = AdoptAPet();
-//         break;
-//       case 4:
-//         page = Relocation();
-//         break;
-//
-//     }
-//
-//     if (page != null) {
-//       setState(() {
-//         _page = val;
-//         _widget = page;
-//       });
-//     }
-//   }
-// }
 
 class _NavigationBar extends StatelessWidget {
   final ValueNotifier notifier;
@@ -191,46 +85,48 @@ class _NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 56,
-      child: BottomAppBar(
-        notchMargin: 10,
-        shape: CircularNotchedRectangle(),
-        child: ValueListenableBuilder(
-          valueListenable: notifier,
-          builder: (context, val, child) => Row(children: [
-            Expanded(
-              child: _NavigationButton(
-                label: 'Home',
-                selected: val == 0,
-                icon: CupertinoIcons.home,
-                onPressed: () => selectView(0),
+      child: LocalizedView(
+        builder: (context, lang) => BottomAppBar(
+          notchMargin: 10,
+          shape: CircularNotchedRectangle(),
+          child: ValueListenableBuilder(
+            valueListenable: notifier,
+            builder: (context, val, child) => Row(children: [
+              Expanded(
+                child: _NavigationButton(
+                  label: lang.home,
+                  selected: val == 0,
+                  icon: CupertinoIcons.home,
+                  onPressed: () => selectView(0),
+                ),
               ),
-            ),
-            Expanded(
-              child: _NavigationButton(
-                label: 'Pet Store',
-                selected: val == 1,
-                icon: Icons.storefront,
-                onPressed: () => selectView(1),
+              Expanded(
+                child: _NavigationButton(
+                  label: lang.petStore,
+                  selected: val == 1,
+                  icon: Icons.storefront,
+                  onPressed: () => selectView(1),
+                ),
               ),
-            ),
-            Spacer(),
-            Expanded(
-              child: _NavigationButton(
-                label: 'Adopt a Pet',
-                selected: val == 2,
-                icon: CupertinoIcons.paw,
-                onPressed: () => selectView(2),
+              Spacer(),
+              Expanded(
+                child: _NavigationButton(
+                  label: lang.adoptPet,
+                  selected: val == 2,
+                  icon: CupertinoIcons.paw,
+                  onPressed: () => selectView(2),
+                ),
               ),
-            ),
-            Expanded(
-              child: _NavigationButton(
-                label: 'Relocation',
-                selected: val == 3,
-                icon: CupertinoIcons.airplane,
-                onPressed: () => selectView(3),
+              Expanded(
+                child: _NavigationButton(
+                  label: lang.relocation,
+                  selected: val == 3,
+                  icon: CupertinoIcons.airplane,
+                  onPressed: () => selectView(3),
+                ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ),
     );

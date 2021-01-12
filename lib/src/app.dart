@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:agent_pet/src/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:agent_pet/src/base/theme.dart';
@@ -17,6 +18,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: appName,
       theme: AppTheme.data,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
 
       home: HomePage(),
     );
