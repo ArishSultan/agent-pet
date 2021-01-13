@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 class SimpleFutureBuilder<T> extends FutureBuilder<T> {
   SimpleFutureBuilder({
+    @Deprecated('no need for context here')
     @required BuildContext context,
 
     @required Future<T> future,

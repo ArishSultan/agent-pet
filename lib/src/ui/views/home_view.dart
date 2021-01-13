@@ -360,7 +360,9 @@ class HomeView extends StatelessWidget {
                   /// TODO: Add Navigation here.
                 },
               ),
-            )
+            ),
+
+            SectionHeader('Most Popular Pets in Pakistan')
           ],
         ),
       ),
