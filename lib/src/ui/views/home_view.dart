@@ -1,3 +1,8 @@
+import 'package:agent_pet/src/pages/pet-detail_page.dart';
+import 'package:agent_pet/src/pages/pets-listing/pet-listing_page.dart';
+import 'package:agent_pet/src/widgets/carousel.dart';
+import 'package:agent_pet/src/widgets/new-pets-widget.dart';
+import 'package:agent_pet/src/widgets/view_all_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:agent_pet/src/base/nav.dart';
@@ -73,8 +78,15 @@ class _PetCategory {
   ];
 }
 
-class _PetsCategoriesGrid extends StatelessWidget {
+class _PetsCategoriesGrid extends StatefulWidget {
+  @override
+  __PetsCategoriesGridState createState() => __PetsCategoriesGridState();
+}
+
+class __PetsCategoriesGridState extends State<_PetsCategoriesGrid>
+    with AutomaticKeepAliveClientMixin {
   final _page = ValueNotifier(0);
+
   final _type = ValueNotifier(0);
 
   final _selectedStyle = TextButton.styleFrom(
@@ -83,6 +95,7 @@ class _PetsCategoriesGrid extends StatelessWidget {
     backgroundColor: Colors.black,
     visualDensity: VisualDensity.compact,
   );
+
   final _unselectedStyle = TextButton.styleFrom(
     primary: Colors.black,
     shape: StadiumBorder(),
@@ -92,6 +105,8 @@ class _PetsCategoriesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         var rows = 2, pages = 0;
@@ -195,6 +210,9 @@ class _PetsCategoriesGrid extends StatelessWidget {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _HomeViewAction extends StatelessWidget {
@@ -273,28 +291,40 @@ class _PetType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: 50,
-          height: 50,
-          margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppTheme.primaryColor, width: 2)
-          ),
-          child: _images(type.id),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          primary: AppTheme.primaryColor,
+          padding: EdgeInsets.zero,
         ),
-        Text(
-          type.name.split(' ').first,
-          style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+        onPressed: () => AppNavigation.to(
+          context,
+          PetListing(petName: type.name, petTypeId: type.id),
         ),
-        Text(
-          type.petsCount.toString(),
-          style: TextStyle(fontWeight: FontWeight.bold),
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: 50,
+              height: 50,
+              margin: const EdgeInsets.fromLTRB(8, 6, 8, 8),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppTheme.primaryColor, width: 2)),
+              child: _images(type.id),
+            ),
+            Text(
+              type.name.split(' ').first,
+              style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+            ),
+            Text(
+              type.petsCount.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -303,17 +333,23 @@ class HomeView extends StatelessWidget {
   HomeView();
 
   static const _divider = Divider(height: 0);
-  final _petTypeController = RefreshController();
+
+  final _newPetsController = RefreshController();
+  final _petTypesController = RefreshController();
+  final _featuredPetsController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
     return LocalizedView(
       builder: (context, lang) => RefreshIndicator(
         color: Colors.black,
-        onRefresh: () async {
-          await _petTypeController.refresh();
-        },
+        onRefresh: () => Future.wait([
+          _newPetsController.refresh(),
+          _petTypesController.refresh(),
+          _featuredPetsController.refresh()
+        ]),
         child: ListView(
+          addAutomaticKeepAlives: true,
           padding: const EdgeInsets.only(bottom: 90),
           children: [
             SectionHeader(lang.selectCategory),
@@ -347,6 +383,7 @@ class HomeView extends StatelessWidget {
               image:
                   Image.asset(Assets.petStore, color: Colors.white, scale: 2),
               onPressed: () {
+                /// TODO: Work to be done in the end.
                 //   CustomNavigator.baseNavigateTo(1, 0, 0);
               },
             ),
@@ -360,9 +397,8 @@ class HomeView extends StatelessWidget {
               color: AppTheme.colors[3],
               title: lang.petRelocation,
               subtitle: lang.petRelocationDetail,
-              onPressed: () {
-                //   CustomNavigator.navigateTo(context, PetRelocationPage());
-              },
+              onPressed: () =>
+                  AppNavigation.toPage(context, AppPage.petRelocation),
             ),
             _divider,
             _HomeViewAction(
@@ -374,35 +410,67 @@ class HomeView extends StatelessWidget {
               title: lang.petAndVet,
               color: AppTheme.colors[1],
               subtitle: lang.petAndVetDetail,
-              onPressed: () {
-                // CustomNavigator.navigateTo(context, PetAndVetPage());
-              },
+              onPressed: () => AppNavigation.toPage(context, AppPage.petAndVet),
             ),
             SectionHeader(
               'Featured Pets',
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  textStyle: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  padding: EdgeInsets.zero,
-                  primary: AppTheme.primaryColor,
-                  visualDensity: VisualDensity.compact,
-                  side: BorderSide(color: AppTheme.primaryColor),
-                ),
-                child: Text('View All'),
-                onPressed: () {
-                  /// TODO: Add Navigation here.
-                },
+              SmallOutlinedButton(
+                'View All',
+                () => AppNavigation.toPage(context, AppPage.featuredPets),
               ),
             ),
-
+            SizedBox(
+              height: 210,
+              child: Refreshable(
+                scrollDirection: Axis.horizontal,
+                controller: _featuredPetsController,
+                builder: (pet) => GestureDetector(
+                  child: NewPetsWidget(pet: pet),
+                  onTap: () {
+                    AppNavigation.to(context, PetDetailPage(pet: pet));
+                  },
+                ),
+                fetcher: () => AppServices.pet.getFeaturedPets(),
+              ),
+            ),
+            SizedBox(
+              height: 120,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 7.0, bottom: 14),
+                child: Carousel.live(
+                  indicatorBuilder: Carousel.defaultIndicatorBuilder,
+                  children: Assets.banners
+                      .map((e) => Image.asset(e, fit: BoxFit.fitWidth))
+                      .toList(),
+                ),
+              ),
+            ),
+            SectionHeader(
+              'Newly Added Pets',
+              SmallOutlinedButton(
+                'View All',
+                () => AppNavigation.toPage(context, AppPage.newlyAddedPets),
+              ),
+            ),
+            SizedBox(
+              height: 210,
+              child: Refreshable(
+                controller: _newPetsController,
+                scrollDirection: Axis.horizontal,
+                builder: (pet) => GestureDetector(
+                  child: NewPetsWidget(pet: pet),
+                  onTap: () {
+                    AppNavigation.to(context, PetDetailPage(pet: pet));
+                  },
+                ),
+                fetcher: () => AppServices.pet.getNewlyAddedPets(),
+              ),
+            ),
             SectionHeader('Most Popular Pets in Pakistan'),
             SizedBox(
               height: 107,
               child: Refreshable<PetType>(
-                controller: _petTypeController,
+                controller: _petTypesController,
                 scrollDirection: Axis.horizontal,
                 builder: (type) => _PetType(type),
                 padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),

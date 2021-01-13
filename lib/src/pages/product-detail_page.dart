@@ -7,7 +7,7 @@ import 'package:agent_pet/src/services/_service.dart';
 import 'package:agent_pet/src/services/product-detail-service.dart';
 import 'package:agent_pet/src/widgets/badge.dart';
 import 'package:agent_pet/src/widgets/bottom_sheets/share-bottom-sheet.dart';
-import 'package:agent_pet/src/widgets/carousel-banner.dart';
+import 'package:agent_pet/src/widgets/carousel.dart';
 import 'package:agent_pet/src/widgets/cart-badged-icon.dart';
 import 'package:agent_pet/src/widgets/favorite-button.dart';
 import 'package:agent_pet/src/widgets/loading-builder.dart';

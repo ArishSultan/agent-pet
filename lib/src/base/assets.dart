@@ -32,6 +32,13 @@ abstract class Assets {
   static const rabbit = 'assets/icons/animals/rabbit.png';
   static const parrot = 'assets/icons/animals/parrot.png';
 
+  static const banners = [
+    'assets/banners/web_banner_dog.webp',
+    'assets/banners/web_banner_bird.webp',
+    'assets/banners/web_banner_fish.webp',
+    'assets/banners/web_banner_cat.webp',
+  ];
+
   static const petTypes = {
     1: cat,
     2: dog,

@@ -1,4 +1,7 @@
 import 'package:agent_pet/src/pages/cart/main-cart.dart';
+import 'package:agent_pet/src/pages/pet-relocation/main-pet-relocation.dart';
+import 'package:agent_pet/src/pages/pet-relocation/pet_relocation-data.dart';
+import 'package:agent_pet/src/pages/pets-and-vets_page.dart';
 import 'package:agent_pet/src/pages/profile/saved_ads-page.dart';
 import 'package:agent_pet/src/ui/pages/home_page.dart';
 import 'package:agent_pet/src/pages/pets-listing/pet-listing_page.dart';
@@ -13,7 +16,12 @@ class AppPage {
   static const cart = AppPage._('/cart');
   static const allPets = AppPage._('/all-pets');
   static const favorites = AppPage._('/favorites');
+  static const featuredPets = AppPage._('/featured-pets');
+  static const newlyAddedPets = AppPage._('/newly-added-pets');
   static const petsForAdoption = AppPage._('/pets-for-adoption');
+
+  static const petRelocation = AppPage._('/pets-relocation');
+  static const petAndVet = AppPage._('/pets-and-Vets');
 }
 
 abstract class AppNavigation {
@@ -39,6 +47,10 @@ abstract class AppNavigation {
     AppPage.allPets._name: (context) => PetListing(),
     /// TODO: Change Name of Page.
     AppPage.favorites._name: (context) => SavedAds(),
+    AppPage.petAndVet._name: (context) => PetAndVetPage(),
+    AppPage.featuredPets._name: (context) => PetListing(listing: 4),
+    AppPage.petRelocation._name: (context) => PetRelocationPage(),
+    AppPage.newlyAddedPets._name: (context) => PetListing(listing: 0),
     AppPage.petsForAdoption._name: (context) => PetListing(listing: 1),
   };
 }

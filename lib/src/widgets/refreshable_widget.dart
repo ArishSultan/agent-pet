@@ -11,6 +11,7 @@ typedef ItemBuilder<T> = Widget Function(T);
 typedef Fetcher<T> = Future<List<T>> Function();
 
 class Refreshable<T> extends StatefulWidget {
+  final bool keepAlive;
   final Fetcher<T> fetcher;
   final EdgeInsets padding;
   final Axis scrollDirection;
@@ -20,6 +21,7 @@ class Refreshable<T> extends StatefulWidget {
   const Refreshable({
     this.fetcher,
     this.builder,
+    this.keepAlive = true,
     this.padding = const EdgeInsets.all(0),
     this.controller,
     this.scrollDirection = Axis.vertical,
@@ -29,7 +31,8 @@ class Refreshable<T> extends StatefulWidget {
   _RefreshableState<T> createState() => _RefreshableState<T>();
 }
 
-class _RefreshableState<T> extends State<Refreshable> {
+class _RefreshableState<T> extends State<Refreshable>
+    with AutomaticKeepAliveClientMixin {
   Future<List<T>> data;
 
   void initState() {
@@ -63,4 +66,7 @@ class _RefreshableState<T> extends State<Refreshable> {
 
     setState(() {});
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }

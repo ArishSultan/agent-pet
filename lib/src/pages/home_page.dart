@@ -8,7 +8,7 @@ import 'package:agent_pet/src/services/user-service.dart';
 import 'package:agent_pet/src/utils/custom-navigator.dart';
 import 'package:agent_pet/src/utils/local-data.dart';
 import 'package:agent_pet/src/utils/simple-future-builder.dart';
-import 'package:agent_pet/src/widgets/carousel-banner.dart';
+import 'package:agent_pet/src/widgets/carousel.dart';
 import 'package:agent_pet/src/widgets/dots-indicator.dart';
 import 'package:agent_pet/src/widgets/home-category-pageview.dart';
 import 'package:agent_pet/src/widgets/new-pets-widget.dart';
@@ -32,20 +32,21 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   final _service = PetService();
   final _typeService = PetTypeService();
   TabController _controller;
   Future<List<Pet>> _new;
   Future<List<Pet>> _featured;
-  Future<List<PetType>>  _popular;
+  Future<List<PetType>> _popular;
   PageController _pageController;
   int _index;
   List<String> _mobileBanners = [
-        'assets/banners/dog-food.png',
-        'assets/banners/cat-food.png',
-        'assets/banners/bird-food.png',
-        'assets/banners/fish-food.png',
+    'assets/banners/dog-food.png',
+    'assets/banners/cat-food.png',
+    'assets/banners/bird-food.png',
+    'assets/banners/fish-food.png',
   ];
 
   List<String> _webBanners = [
@@ -65,13 +66,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     _pageController = PageController();
 
     _controller = TabController(length: 3, vsync: this);
-    _controller.addListener((){
-
+    _controller.addListener(() {
       setState(() {
         _index = _controller.index;
       });
       print(_index);
-
     });
   }
 
@@ -86,7 +85,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   CustomNavigator.navigateTo(context, HomeSearchPage());
                 },
                 child: Container(
@@ -94,15 +93,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)
-                  ),
+                      borderRadius: BorderRadius.circular(20)),
                   child: Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 20.0,right: 8),
-                        child: Icon(Icons.search,size: 22,),
+                        padding: const EdgeInsets.only(left: 20.0, right: 8),
+                        child: Icon(
+                          Icons.search,
+                          size: 22,
+                        ),
                       ),
-                      Text("Search",style: TextStyle(fontSize: 16),),
+                      Text(
+                        "Search",
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ],
                   ),
                 ),
@@ -113,34 +117,38 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         SliverSectionHeader('Select a Category'),
         SliverToBoxAdapter(child: HomeCategoriesView()),
 
-
         SliverSectionHeader('Our Services'),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.only(
-                top:5,
-                bottom: 5
-            ),
+            padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: Column(children: <Widget>[
               HomePageMainAction(
                 subtitle: 'Buy & Sell Pets Online In Pakistan.',
                 color: Color(0xfffd4245),
                 image: 'assets/icons/buy-sell-icon.png',
                 title: 'Pet Buy/Sell',
-                onPressed: (){
-                  CustomNavigator.navigateTo(context, PetListing(listing: 0,));
+                onPressed: () {
+                  CustomNavigator.navigateTo(
+                      context,
+                      PetListing(
+                        listing: 0,
+                      ));
                 },
               ),
               HomePageMainAction(
-                subtitle: 'Find pets for adoption and match making in Pakistan.',
-                color:  Color(0xfff8a135),
+                subtitle:
+                    'Find pets for adoption and match making in Pakistan.',
+                color: Color(0xfff8a135),
                 image: 'assets/icons/mate.png',
                 title: 'Pet Adoption / Match Making',
-                onPressed: (){
-                  CustomNavigator.navigateTo(context, PetListing(listing: 1,));
+                onPressed: () {
+                  CustomNavigator.navigateTo(
+                      context,
+                      PetListing(
+                        listing: 1,
+                      ));
                 },
               ),
-
               HomePageMainAction(
                 subtitle: 'A variety of Animal supplies and pet accessories.',
                 color: Color(0xff7b43a5),
@@ -151,15 +159,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 },
               ),
               HomePageMainAction(
-                subtitle: 'Agent Pet Specializes in relocation of your pet intercity, interstates, import and export for whatever pet you need.',
+                subtitle:
+                    'Agent Pet Specializes in relocation of your pet intercity, interstates, import and export for whatever pet you need.',
                 color: Color(0xff47b5e2),
                 image: 'assets/icons/plane.png',
                 title: 'Pet Relocation',
-                onPressed: (){
+                onPressed: () {
                   CustomNavigator.navigateTo(context, PetRelocationPage());
                 },
               ),
-
               HomePageMainAction(
                 subtitle: 'Find Pet and Vet clinics in your area.',
                 color: Color(0xfff8a135),
@@ -169,19 +177,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   CustomNavigator.navigateTo(context, PetAndVetPage());
                 },
               ),
-
-
-
-
             ]),
           ),
         ),
+
         /// Featured Pets
-        SliverSectionHeader('Featured Pets',viewAllBtn(
-            onPressed: (){
-              CustomNavigator.navigateTo(context, PetListing(listing: 4,));
-            }
-        )),
+        SliverSectionHeader('Featured Pets', viewAllBtn(onPressed: () {
+          CustomNavigator.navigateTo(
+              context,
+              PetListing(
+                listing: 4,
+              ));
+        })),
 //        SliverToBoxAdapter(child: Padding(
 //          padding: const EdgeInsets.only(top:8.0),
 //          child: Container(
@@ -265,42 +272,51 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 //        )),
         SliverToBoxAdapter(
           child: SimpleFutureBuilder<List<Pet>>.simpler(
-              context: context,
-              future: _featured,
-              builder: (AsyncSnapshot<List<Pet>> snapshot) {
-                return Container(
-                  height: 210,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i)  {
-                        var pet = snapshot.data[i];
-                        return InkWell(
-                          highlightColor: Colors.grey.shade200,
-                          onTap: (){
-                            CustomNavigator.navigateTo(context, PetDetailPage(pet: pet,));
-                          },
-                          child: NewPetsWidget(
-                            pet: pet,
-                          ),
-                        );
+            context: context,
+            future: _featured,
+            builder: (AsyncSnapshot<List<Pet>> snapshot) {
+              return Container(
+                height: 210,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, i) {
+                    var pet = snapshot.data[i];
+                    return InkWell(
+                      highlightColor: Colors.grey.shade200,
+                      onTap: () {
+                        CustomNavigator.navigateTo(
+                            context,
+                            PetDetailPage(
+                              pet: pet,
+                            ));
                       },
-                      itemCount: snapshot.data.length),
-                );
-              }
+                      child: NewPetsWidget(
+                        pet: pet,
+                      ),
+                    );
+                  },
+                  itemCount: snapshot.data.length,
+                ),
+              );
+            },
           ),
         ),
 
-          SliverToBoxAdapter(child: Padding(
-            padding: const EdgeInsets.only(top:7.0,bottom: 14),
-            child: Carousel(_webBanners),
-          )),
+        // SliverToBoxAdapter(
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(top: 7.0, bottom: 14),
+        //     child: Carousel(_webBanners),
+        //   ),
+        // ),
 
         /// Newly Arrived Pets
-        SliverSectionHeader('Newly Added Pets',viewAllBtn(
-            onPressed: (){
-              CustomNavigator.navigateTo(context, PetListing(listing: 0,));
-            }
-        )),
+        SliverSectionHeader('Newly Added Pets', viewAllBtn(onPressed: () {
+          CustomNavigator.navigateTo(
+              context,
+              PetListing(
+                listing: 0,
+              ));
+        })),
         SliverToBoxAdapter(
           child: SimpleFutureBuilder<List<Pet>>.simpler(
               context: context,
@@ -310,12 +326,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   height: 210,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, i)  {
+                      itemBuilder: (context, i) {
                         var pet = snapshot.data[i];
                         return InkWell(
                           highlightColor: Colors.grey.shade200,
-                          onTap: (){
-                            CustomNavigator.navigateTo(context, PetDetailPage(pet: pet,));
+                          onTap: () {
+                            CustomNavigator.navigateTo(
+                                context,
+                                PetDetailPage(
+                                  pet: pet,
+                                ));
                           },
                           child: NewPetsWidget(
                             pet: pet,
@@ -324,8 +344,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       },
                       itemCount: snapshot.data.length),
                 );
-              }
-          ),
+              }),
         ),
 
         SliverSectionHeader('Most Popular Pets In Pakistan'),
@@ -336,41 +355,52 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               future: _popular,
               builder: (AsyncSnapshot<List<PetType>> snapshot) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Container(
-                    height:100,
+                    height: 100,
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, i)  {
+                        itemBuilder: (context, i) {
                           var pet = snapshot.data[i];
                           return Material(
                             child: InkWell(
-                              onTap: (){
-                                CustomNavigator.navigateTo(context, PetListing(petTypeId: pet.id,
-                                  petName: '${pet.name}',
-                                ));
+                              onTap: () {
+                                CustomNavigator.navigateTo(
+                                    context,
+                                    PetListing(
+                                      petTypeId: pet.id,
+                                      petName: '${pet.name}',
+                                    ));
                               },
                               child: Column(
                                 children: <Widget>[
                                   Padding(
-                                    padding: const EdgeInsets.only(left:8.0,right:8,top:8 ),
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8, top: 8),
                                     child: Container(
                                       height: 50,
                                       width: 50,
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: CircleAvatar(
-                                          child: Image.asset("assets/icons/${popularPetImages(pet.id)}.png", color: Colors.primaries[0]),
+                                          child: Image.asset(
+                                              "assets/icons/${popularPetImages(pet.id)}.png",
+                                              color: Colors.primaries[0]),
                                           backgroundColor: Colors.transparent,
                                         ),
                                       ),
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.primaries[0]),
+                                        border: Border.all(
+                                            color: Colors.primaries[0]),
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                     ),
                                   ),
-                                  Text(pet.name.split(' ').first,softWrap: true,),
+                                  Text(
+                                    pet.name.split(' ').first,
+                                    softWrap: true,
+                                  ),
                                   Text(pet.petsCount.toString()),
                                 ],
                               ),
@@ -380,26 +410,29 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         itemCount: snapshot.data.length),
                   ),
                 );
-              }
-          ),
+              }),
         ),
 
-
-        SliverToBoxAdapter(child: SizedBox(height: 25,),),
-      ]), onRefresh: () async {
-      _featured = _service.getFeaturedPets();
-      _new = _service.getNewlyAddedPets();
-      _popular = _typeService.getPopularPets();
-      await _featured;
-      await _new;
-      await _popular;
-      setState(() {});
-    },
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 25,
+          ),
+        ),
+      ]),
+      onRefresh: () async {
+        _featured = _service.getFeaturedPets();
+        _new = _service.getNewlyAddedPets();
+        _popular = _typeService.getPopularPets();
+        await _featured;
+        await _new;
+        await _popular;
+        setState(() {});
+      },
     );
   }
 
-  String popularPetImages(int id){
-    switch(id){
+  String popularPetImages(int id) {
+    switch (id) {
       case 1:
         return 'cat';
         break;
@@ -480,18 +513,12 @@ class HomePageMainAction extends StatelessWidget {
   final String subtitle;
   final Function onPressed;
 
-  HomePageMainAction({
-    this.color,
-    this.image,
-    this.title,
-    this.subtitle,
-    this.onPressed
-  });
-
+  HomePageMainAction(
+      {this.color, this.image, this.title, this.subtitle, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: <Widget>[
         ListTile(
           dense: true,
@@ -503,7 +530,11 @@ class HomePageMainAction extends StatelessWidget {
             ),
             backgroundColor: color,
           ),
-          title:  Text(title, style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.primaries[0].shade400)),
+          title: Text(title,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.primaries[0].shade400)),
           subtitle: Text(subtitle),
           trailing: Icon(Icons.navigate_next),
           onTap: onPressed,
@@ -511,32 +542,23 @@ class HomePageMainAction extends StatelessWidget {
         Divider(),
       ],
     );
-
-
   }
-
-
-
-
-
 }
 
 class _CategoryCell extends Material {
-  _CategoryCell({
-    String name,
-    String image,
-    Function onPressed
-  }): super(
-    child: InkWell(
-      onTap: onPressed,
-      child: Column(children: <Widget>[
-        Image.asset(image, scale: 5.5, color: Colors.primaries[0]),
-        SizedBox(height: 2,),
-        Text(name, style: TextStyle(fontSize: 11), overflow: TextOverflow.ellipsis),
-      ]),
-    ),
-  );
+  _CategoryCell({String name, String image, Function onPressed})
+      : super(
+          child: InkWell(
+            onTap: onPressed,
+            child: Column(children: <Widget>[
+              Image.asset(image, scale: 5.5, color: Colors.primaries[0]),
+              SizedBox(
+                height: 2,
+              ),
+              Text(name,
+                  style: TextStyle(fontSize: 11),
+                  overflow: TextOverflow.ellipsis),
+            ]),
+          ),
+        );
 }
-
-
-
