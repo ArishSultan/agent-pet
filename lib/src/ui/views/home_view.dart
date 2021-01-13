@@ -433,18 +433,18 @@ class HomeView extends StatelessWidget {
                 fetcher: () => AppServices.pet.getFeaturedPets(),
               ),
             ),
-            SizedBox(
-              height: 120,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 7.0, bottom: 14),
-                child: Carousel.live(
-                  indicatorBuilder: Carousel.defaultIndicatorBuilder,
-                  children: Assets.banners
-                      .map((e) => Image.asset(e, fit: BoxFit.fitWidth))
-                      .toList(),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   height: 120,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(top: 7.0, bottom: 14),
+            //     child: Carousel.live(
+            //       indicatorBuilder: Carousel.defaultIndicatorBuilder,
+            //       children: Assets.banners
+            //           .map((e) => Image.asset(e, fit: BoxFit.fitWidth))
+            //           .toList(),
+            //     ),
+            //   ),
+            // ),
             SectionHeader(
               'Newly Added Pets',
               SmallOutlinedButton(
@@ -458,7 +458,7 @@ class HomeView extends StatelessWidget {
                 controller: _newPetsController,
                 scrollDirection: Axis.horizontal,
                 builder: (pet) => GestureDetector(
-                  child: NewPetsWidget(pet: pet),
+                  child: PetBox(pet),
                   onTap: () {
                     AppNavigation.to(context, PetDetailPage(pet: pet));
                   },

@@ -3,6 +3,30 @@ import 'package:agent_pet/src/services/_service.dart';
 import 'package:agent_pet/src/utils/convert-yes-or-no.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:';
+
+class PetBox extends StatelessWidget {
+  final Pet pet;
+  PetBox(this.pet);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black12),
+        ),
+
+        child: Column(children: [
+          // Image(image: NetworkImage,),
+        ]),
+      ),
+    );
+  }
+}
+
 
 class NewPetsWidget extends StatefulWidget {
   final Pet pet;
