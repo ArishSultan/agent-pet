@@ -26,8 +26,34 @@ abstract class Assets {
   static const turtle = 'assets/icons/animals/turtle.png';
   static const snake = 'assets/icons/animals/snake.png';
   static const frog = 'assets/icons/animals/frog.png';
-  static const horse = 'assets/icons/animals/horse.png';
+  /// Change Icon to Horse
+  static const horse = 'assets/icons/animals/pony.png';
   static const crocodile = 'assets/icons/animals/crocodile.png';
   static const rabbit = 'assets/icons/animals/rabbit.png';
   static const parrot = 'assets/icons/animals/parrot.png';
+
+  static const petTypes = {
+    1: cat,
+    2: dog,
+    3: fish,
+    4: parrot,
+    5: cow,
+    6: bird,
+    7: ferret,
+    8: iguana,
+    9: horse,
+    10: monkey,
+    11: pig,
+    12: pig,
+    13: rabbit,
+    14: crocodile,
+    15: lizard,
+    16: snake,
+    17: turtle,
+    18: frog,
+    19: hamster,
+    3409: pig,
+    3692: dog, /// TODO: Change to Paw
+    3879: lion,
+  };
 }

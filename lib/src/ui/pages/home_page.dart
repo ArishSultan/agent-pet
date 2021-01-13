@@ -10,7 +10,7 @@ import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
 
 class HomePage extends StatelessWidget {
   final _selectedView = ValueNotifier(0);
-  static const _views = [
+  static final _views = [
     HomeView()
   ];
 

@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   TabController _controller;
   Future<List<Pet>> _new;
   Future<List<Pet>> _featured;
-  Future<List<PetType>> _popular;
+  Future<List<PetType>>  _popular;
   PageController _pageController;
   int _index;
   List<String> _mobileBanners = [

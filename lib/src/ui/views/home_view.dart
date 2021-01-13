@@ -1,11 +1,13 @@
-import 'package:agent_pet/src/base/assets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:agent_pet/src/base/nav.dart';
 import 'package:agent_pet/src/base/theme.dart';
+import 'package:agent_pet/src/base/assets.dart';
+import 'package:agent_pet/src/base/services.dart';
+import 'package:agent_pet/src/models/pet-type.dart';
+import 'package:agent_pet/src/widgets/section-header.dart';
 import 'package:agent_pet/src/ui/views/localized_view.dart';
 import 'package:agent_pet/src/widgets/refreshable_widget.dart';
-import 'package:agent_pet/src/widgets/section-header.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class _PetCategoryBlock extends SizedBox {
   static const blockSize = 70.0;
@@ -256,33 +258,66 @@ class _HomeViewAction extends StatelessWidget {
   }
 }
 
-class _PetCategoryView extends StatelessWidget {
+class _PetType extends StatelessWidget {
+  final PetType type;
+
+  _PetType(this.type);
+
+  Widget _images(int id) {
+    if (Assets.petTypes.containsKey(id)) {
+      return Image.asset(Assets.petTypes[id], color: AppTheme.primaryColor);
+    } else {
+      print('${type.name} - ${type.id}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Wrap(children: [
-      _PetsCategoriesGrid(),
-    ]);
+    return Column(
+      children: <Widget>[
+        Container(
+          width: 50,
+          height: 50,
+          margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: AppTheme.primaryColor, width: 2)
+          ),
+          child: _images(type.id),
+        ),
+        Text(
+          type.name.split(' ').first,
+          style: TextStyle(color: Colors.grey.shade600, fontSize: 11),
+        ),
+        Text(
+          type.petsCount.toString(),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
   }
 }
 
 class HomeView extends StatelessWidget {
-  const HomeView();
+  HomeView();
 
   static const _divider = Divider(height: 0);
+  final _petTypeController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
     return LocalizedView(
       builder: (context, lang) => RefreshIndicator(
         color: Colors.black,
-        onRefresh: () {
-          return Future.delayed(Duration(seconds: 5));
+        onRefresh: () async {
+          await _petTypeController.refresh();
         },
         child: ListView(
           padding: const EdgeInsets.only(bottom: 90),
           children: [
             SectionHeader(lang.selectCategory),
-            _PetCategoryView(),
+            _PetsCategoriesGrid(),
             SectionHeader(lang.ourServices),
             _HomeViewAction(
               image: Image.asset(
@@ -364,7 +399,15 @@ class HomeView extends StatelessWidget {
             ),
 
             SectionHeader('Most Popular Pets in Pakistan'),
-            Refreshable(
+            SizedBox(
+              height: 107,
+              child: Refreshable<PetType>(
+                controller: _petTypeController,
+                scrollDirection: Axis.horizontal,
+                builder: (type) => _PetType(type),
+                padding: const EdgeInsets.fromLTRB(7, 0, 7, 0),
+                fetcher: () => AppServices.petType.getPopularPets(),
+              ),
             ),
           ],
         ),

@@ -7,24 +7,26 @@ class RefreshController {
   Future<void> refresh() => _state.refresh();
 }
 
-typedef ItemBuilder<T> = Widget Function(T t);
+typedef ItemBuilder<T> = Widget Function(T);
 typedef Fetcher<T> = Future<List<T>> Function();
 
 class Refreshable<T> extends StatefulWidget {
   final Fetcher<T> fetcher;
+  final EdgeInsets padding;
   final Axis scrollDirection;
-  final ItemBuilder<T> builder;
+  final ItemBuilder<dynamic> builder;
   final RefreshController controller;
 
   const Refreshable({
     this.fetcher,
     this.builder,
+    this.padding = const EdgeInsets.all(0),
     this.controller,
-    this.scrollDirection,
+    this.scrollDirection = Axis.vertical,
   });
 
   @override
-  _RefreshableState<T> createState() => _RefreshableState();
+  _RefreshableState<T> createState() => _RefreshableState<T>();
 }
 
 class _RefreshableState<T> extends State<Refreshable> {
@@ -46,6 +48,7 @@ class _RefreshableState<T> extends State<Refreshable> {
       context: context,
       builder: (AsyncSnapshot<List<T>> data) {
         return ListView.builder(
+          padding: widget.padding,
           itemCount: data.data.length,
           scrollDirection: widget.scrollDirection,
           itemBuilder: (context, i) => widget.builder(data.data[i]),
