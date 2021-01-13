@@ -2,6 +2,7 @@ import 'package:agent_pet/src/base/assets.dart';
 import 'package:agent_pet/src/base/nav.dart';
 import 'package:agent_pet/src/base/theme.dart';
 import 'package:agent_pet/src/ui/views/localized_view.dart';
+import 'package:agent_pet/src/widgets/refreshable_widget.dart';
 import 'package:agent_pet/src/widgets/section-header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -362,7 +363,9 @@ class HomeView extends StatelessWidget {
               ),
             ),
 
-            SectionHeader('Most Popular Pets in Pakistan')
+            SectionHeader('Most Popular Pets in Pakistan'),
+            Refreshable(
+            ),
           ],
         ),
       ),

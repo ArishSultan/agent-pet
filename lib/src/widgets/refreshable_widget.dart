@@ -3,6 +3,7 @@ import 'package:agent_pet/src/utils/simple-future-builder.dart';
 
 class RefreshController {
   _RefreshableState _state;
+
   Future<void> refresh() => _state.refresh();
 }
 
@@ -11,9 +12,16 @@ typedef Fetcher<T> = Future<List<T>> Function();
 
 class Refreshable<T> extends StatefulWidget {
   final Fetcher<T> fetcher;
+  final Axis scrollDirection;
   final ItemBuilder<T> builder;
   final RefreshController controller;
-  const Refreshable({this.fetcher, this.builder, this.controller});
+
+  const Refreshable({
+    this.fetcher,
+    this.builder,
+    this.controller,
+    this.scrollDirection,
+  });
 
   @override
   _RefreshableState<T> createState() => _RefreshableState();
@@ -39,6 +47,7 @@ class _RefreshableState<T> extends State<Refreshable> {
       builder: (AsyncSnapshot<List<T>> data) {
         return ListView.builder(
           itemCount: data.data.length,
+          scrollDirection: widget.scrollDirection,
           itemBuilder: (context, i) => widget.builder(data.data[i]),
         );
       },
