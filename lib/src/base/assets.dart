@@ -1,6 +1,10 @@
 abstract class Assets {
   static const logo = 'assets/agent_pet_logo.webp';
 
+  /// Drawer Icons
+  static const addPet = 'assets/icons/cat_add_pet.webp';
+  static const buySell = 'assets/icons/buy_sell_icon.webp';
+
   /// Home Page Icons
   static const mate = 'assets/icons/mate.webp';
   static const petStore = 'assets/icons/pet_store.webp';
@@ -31,6 +35,12 @@ abstract class Assets {
   static const crocodile = 'assets/icons/animals/crocodile.png';
   static const rabbit = 'assets/icons/animals/rabbit.png';
   static const parrot = 'assets/icons/animals/parrot.png';
+
+  static const bgImage = 'assets/agent_pet_background.webp';
+
+  /// Other Icons
+  static const petGroup = 'assets/icons/pet_group.webp';
+  static const vaccination = 'assets/icons/vaccination.webp';
 
   static const banners = [
     'assets/banners/web_banner_dog.webp',

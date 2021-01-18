@@ -9,21 +9,24 @@ import 'package:agent_pet/src/widgets/cart-badged-icon.dart';
 import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
 
 class HomePage extends StatelessWidget {
-  final _selectedView = ValueNotifier(0);
-  static final _views = [
-    HomeView()
-  ];
+  final _controller = PageController(initialPage: 0);
+
+  static const _shiftCurve = Curves.ease;
+  static const _shiftDuration = Duration(milliseconds: 500);
+
+  static final _views = [HomeView()];
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (_selectedView.value > 0) {
-          _selectedView.value = 0;
+        if (_controller.page > 0) {
+          _controller.animateToPage(0,
+              duration: _shiftDuration, curve: _shiftCurve);
           return false;
-        } else {
-          return true;
         }
+
+        return true;
       },
       child: Scaffold(
         drawer: DrawerWidget(),
@@ -37,11 +40,13 @@ class HomePage extends StatelessWidget {
             child: Hero(tag: 'main_search_bar', child: SearchBar()),
           ),
         ),
-        body: ValueListenableBuilder(
-          valueListenable: _selectedView,
-          builder: (BuildContext context, value, Widget child) {
-            return _views[0];
-          },
+        body: PageView(
+          controller: _controller,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            HomeView(),
+            HomeView(),
+          ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: SizedBox(
@@ -51,7 +56,7 @@ class HomePage extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               elevation: 1,
               padding: EdgeInsets.zero,
-              side: BorderSide(color: Colors.white, width: 2),
+              // side: BorderSide(color: Colors.white, width: 2),
               primary: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
@@ -68,20 +73,46 @@ class HomePage extends StatelessWidget {
             },
           ),
         ),
-        bottomNavigationBar: _NavigationBar(notifier: _selectedView),
+        bottomNavigationBar: _NavigationBar(controller: _controller),
       ),
     );
   }
 }
 
-class _NavigationBar extends StatelessWidget {
-  final ValueNotifier notifier;
+class _NavigationBar extends StatefulWidget {
+  final PageController controller;
 
-  _NavigationBar({this.notifier});
+  _NavigationBar({this.controller});
 
-  void selectView(int index) {
-    if (index == notifier.value) return;
-    notifier.value = index;
+  @override
+  __NavigationBarState createState() => __NavigationBarState();
+}
+
+class __NavigationBarState extends State<_NavigationBar> {
+  var _page = 0;
+  var _ignoreListener = false;
+
+  void selectView(int index) async {
+    _ignoreListener = true;
+    await widget.controller.animateToPage(index,
+        duration: HomePage._shiftDuration, curve: HomePage._shiftCurve);
+
+    setState(() => _page = index);
+    _ignoreListener = false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    widget.controller.addListener(() {
+      final page = widget.controller.page.toInt();
+      print(page);
+      if (!_ignoreListener && page != _page) {
+        _page = page;
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -93,44 +124,41 @@ class _NavigationBar extends StatelessWidget {
           notchMargin: 10,
           clipBehavior: Clip.antiAlias,
           shape: CircularNotchedRectangle(),
-          child: ValueListenableBuilder(
-            valueListenable: notifier,
-            builder: (context, val, child) => Row(children: [
-              Expanded(
-                child: _NavigationButton(
-                  label: lang.home,
-                  selected: val == 0,
-                  icon: CupertinoIcons.home,
-                  onPressed: () => selectView(0),
-                ),
+          child: Row(children: [
+            Expanded(
+              child: _NavigationButton(
+                label: lang.home,
+                selected: _page == 0,
+                icon: CupertinoIcons.home,
+                onPressed: () => selectView(0),
               ),
-              Expanded(
-                child: _NavigationButton(
-                  label: lang.petStore,
-                  selected: val == 1,
-                  icon: Icons.storefront,
-                  onPressed: () => selectView(1),
-                ),
+            ),
+            Expanded(
+              child: _NavigationButton(
+                label: lang.petStore,
+                selected: _page == 1,
+                icon: Icons.storefront,
+                onPressed: () => selectView(1),
               ),
-              Spacer(),
-              Expanded(
-                child: _NavigationButton(
-                  label: lang.adoptPet,
-                  selected: val == 2,
-                  icon: CupertinoIcons.paw,
-                  onPressed: () => selectView(2),
-                ),
+            ),
+            Spacer(),
+            Expanded(
+              child: _NavigationButton(
+                label: lang.adoptPet,
+                selected: _page == 2,
+                icon: CupertinoIcons.paw,
+                onPressed: () => selectView(2),
               ),
-              Expanded(
-                child: _NavigationButton(
-                  label: lang.relocation,
-                  selected: val == 3,
-                  icon: CupertinoIcons.airplane,
-                  onPressed: () => selectView(3),
-                ),
+            ),
+            Expanded(
+              child: _NavigationButton(
+                label: lang.relocation,
+                selected: _page == 3,
+                icon: CupertinoIcons.airplane,
+                onPressed: () => selectView(3),
               ),
-            ]),
-          ),
+            ),
+          ]),
         ),
       ),
     );

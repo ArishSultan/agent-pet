@@ -8,10 +8,48 @@ import 'package:agent_pet/src/widgets/bottom_sheets/sorting-bottom_sheet.dart';
 import 'package:agent_pet/src/widgets/dots-loading-indicator.dart';
 import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
 import 'package:agent_pet/src/utils/custom-navigator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../add-or-edit-pet/main-add-or-edit-pet.dart';
 import 'pet-filters_page.dart';
 import 'paginated-listing.dart';
+
+class PaginatedData<T> {
+  List<T> data;
+  int currentPage;
+}
+
+class PaginationService {}
+
+class PetListingPage extends StatefulWidget {
+  @override
+  _PetListingPageState createState() => _PetListingPageState();
+}
+
+class _PetListingPageState extends State<PetListingPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class _ActionButton extends Expanded {
+  _ActionButton({String text, VoidCallback onPressed})
+      : super(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                primary: Colors.black,
+                minimumSize: Size.fromHeight(48),
+                backgroundColor: Colors.grey.shade200,
+              ),
+              child: Text(text),
+              onPressed: onPressed,
+            ),
+          ),
+        );
+}
 
 class PetListing extends StatefulWidget {
   final int listing;
@@ -20,13 +58,14 @@ class PetListing extends StatefulWidget {
   final String query;
   final String title;
 
-  PetListing({this.petTypeId,this.petName,this.listing = 0,this.query,this.title});
+  PetListing(
+      {this.petTypeId, this.petName, this.listing = 0, this.query, this.title});
+
   @override
   _PetListingState createState() => _PetListingState();
 }
 
 class _PetListingState extends State<PetListing> {
-
   Future<List<PaginatedPet>> pets;
   var _service = PaginatedPetService();
   String count = '';
@@ -39,24 +78,23 @@ class _PetListingState extends State<PetListing> {
   String _searchVal;
   ScrollController scrollController;
   bool showIndicator = false;
-  bool _searchFieldIsEmpty=true;
+  bool _searchFieldIsEmpty = true;
   String oldKeyword;
   bool isNewKeyword;
-  bool refreshed=false;
+  bool refreshed = false;
 
-  void _petsByCat(int id){
+  void _petsByCat(int id) {
     pets = _service.getPetsByType(id, _orderBy);
   }
 
-  Future _handleListing([bool refresh=false]) async {
-    if(_searchFieldIsEmpty){
-      if(widget.petTypeId!=null){
+  Future _handleListing([bool refresh = false]) async {
+    if (_searchFieldIsEmpty) {
+      if (widget.petTypeId != null) {
         _title = '${widget.petName} $_postTitle';
         _petsByCat(widget.petTypeId);
       }
 
-
-      switch(widget.listing){
+      switch (widget.listing) {
         case 0:
           // All Pets
           pets = _service.getAllPets(_orderBy);
@@ -69,58 +107,53 @@ class _PetListingState extends State<PetListing> {
           break;
         case 2:
           //Advanced Search + Filters
-          pets = _service.getPetsByQuery(widget.query,_orderBy);
+          pets = _service.getPetsByQuery(widget.query, _orderBy);
           _title = widget.title;
           break;
-          case 3:
-        //Search Page
+        case 3:
+          //Search Page
           pets = _service.searchPetByKeyword(widget.query, _orderBy);
           _title = '${widget.query} $_postTitle';
           break;
         case 4:
-        //All Featured Pets
+          //All Featured Pets
           pets = _service.getAllFeaturedPets(_orderBy);
           _title = 'Featured Pets $_postTitle';
           break;
-          case 5:
-        //Pets By User ID
-          pets = _service.petsByUser(int.parse(widget.query),_orderBy);
+        case 5:
+          //Pets By User ID
+          pets = _service.petsByUser(int.parse(widget.query), _orderBy);
           _title = 'Ads By ${widget.title}';
           break;
       }
-    }else{
+    } else {
       _title = '$_searchVal $_postTitle';
-      pets= _service.searchPetByKeyword(_searchVal,_orderBy);
+      pets = _service.searchPetByKeyword(_searchVal, _orderBy);
     }
 
-
-
-
-    if(refresh){
+    if (refresh) {
       await pets;
-      refreshed=true;
-      scrollController.animateTo(scrollController.position.minScrollExtent,duration: Duration(milliseconds: 300),curve: Curves.easeIn);
+      refreshed = true;
+      scrollController.animateTo(scrollController.position.minScrollExtent,
+          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
 
       setState(() {});
     }
 
-    pets.then((pets){
+    pets.then((pets) {
       setState(() {
         count = pets[0].total.toString();
-        _title = count + ' ' +  _title;
+        _title = count + ' ' + _title;
       });
     });
-
   }
-
-
 
   Future _inPageSearch(String query) async {
     setState(() {
       _title = '$query $_postTitle';
     });
     pets = _service.searchPetByKeyword(query, _orderBy);
-    pets.then((pets){
+    pets.then((pets) {
       setState(() {
         count = pets[0].total.toString();
         _title = count + ' ' + _title;
@@ -134,7 +167,6 @@ class _PetListingState extends State<PetListing> {
     scrollController = ScrollController();
     _handleListing();
     super.initState();
-
   }
 
   refresh(dynamic childValue) {
@@ -143,64 +175,72 @@ class _PetListingState extends State<PetListing> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Text("Sell"),
-        onPressed: (){
-          CustomNavigator.navigateTo(context, LocalData.isSignedIn ? AddPetPage() : LoginPage());
+        onPressed: () {
+          CustomNavigator.navigateTo(
+              context, LocalData.isSignedIn ? AddPetPage() : LoginPage());
         },
       ),
       key: listingScaffoldKey,
       appBar: AppBar(
         elevation: 0,
         titleSpacing: 0,
-        actions: <Widget>[
-
-
-          SavedBadgeIcon()
-
-        ],
+        leading: IconButton(
+          onPressed: Navigator.of(context).pop,
+          icon: Icon(CupertinoIcons.arrow_left),
+        ),
+        actions: <Widget>[FavoriteButtonBadged()],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(68),
+          child: Row(children: [
+            SizedBox(width: 5),
+            _ActionButton(text: 'FILTER', onPressed: () {}),
+            _ActionButton(text: 'SORT', onPressed: () {}),
+            _ActionButton(text: 'NOTIFY ME', onPressed: () {}),
+            SizedBox(width: 5),
+          ]),
+        ),
         title: TextFormField(
           controller: _keyword,
           style: TextStyle(color: Colors.white),
-          onEditingComplete: (){
+          onEditingComplete: () {
             //Using this variable for purpose of notify
             // ing paginated widget
             //that search by keyword needs to be called
-            _searchFieldIsEmpty=_keyword.text.length < 1;
+            _searchFieldIsEmpty = _keyword.text.length < 1;
             print(_searchFieldIsEmpty);
             FocusScope.of(context).requestFocus(FocusNode());
           },
           onFieldSubmitted: (value) async {
-            if(value.isNotEmpty){
+            if (value.isNotEmpty) {
               await _inPageSearch(value);
-              _searchVal=value;
+              _searchVal = value;
             }
           },
           decoration: InputDecoration(
-            hintStyle: TextStyle(
-                color: Colors.white
-            ),
-            suffixIcon: IconButton(icon: Icon(Icons.clear),color: Colors.white,
-              onPressed: (){
+            isDense: true,
+            hintStyle: TextStyle(color: Colors.white),
+            suffixIcon: IconButton(
+              icon: Icon(Icons.clear),
+              color: Colors.white,
+              onPressed: () {
                 _keyword.clear();
-              },),
+              },
+            ),
             hintText: 'Search',
             focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.white
-                )
+                borderSide: BorderSide(color: Colors.white)),
+            prefixIcon: Icon(
+              Icons.search,
+              color: Colors.white,
             ),
-            prefixIcon: Icon(Icons.search,color: Colors.white,),
-
           ),
           textInputAction: TextInputAction.search,
         ),
-
-
       ),
       body: RefreshIndicator(
         key: refreshKey,
@@ -211,78 +251,95 @@ class _PetListingState extends State<PetListing> {
         child: CustomScrollView(
           controller: scrollController,
           slivers: <Widget>[
-            SliverAppBar(
-              titleSpacing: 0,
-              elevation: 0,
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
-              title: Row(children: <Widget>[
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200
-                    ),
-                    child: FlatButton(child: Text("FILTER",),
-                      textColor: Colors.black,
-                      onPressed: () {
-                        CustomNavigator.navigateTo(context, PetFilters());
-                      },),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade200
-                      ),
-                      child: FlatButton(child: Text("SORT"),onPressed: () async {
-                        var _orderByResult =  await showModalBottomSheet(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-                            ),context: context, builder: (context)=> SortBottomSheet(selectedSort: _orderBy=='asc' ? 2 : 1,
-                        ));
-                        if(_orderByResult!=null){
-                          _orderBy =  _orderByResult ;
-                          refreshKey.currentState.show();
-                        }
-                      },
-                        textColor: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200
-                    ),
-                    child: FlatButton(child: Text("NOTIFY ME"),onPressed: (){
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-                          ),context: context, builder: (context)=> NotifyBottomSheet(listingKey: listingScaffoldKey,));
-                    },
-                      textColor: Colors.black,
-                    ),
-                  ),
-                ),
-              ],),
-              pinned: true,),
+            // SliverAppBar(
+            //   titleSpacing: 0,
+            //   elevation: 0,
+            //   automaticallyImplyLeading: false,
+            //   backgroundColor: Colors.white,
+            //   title: Row(
+            //     children: <Widget>[
+            //       Expanded(
+            //         child: Container(
+            //           decoration: BoxDecoration(color: Colors.grey.shade200),
+            //           child: FlatButton(
+            //             child: Text(
+            //               "FILTER",
+            //             ),
+            //             textColor: Colors.black,
+            //             onPressed: () {
+            //               CustomNavigator.navigateTo(context, PetFilters());
+            //             },
+            //           ),
+            //         ),
+            //       ),
+            //       Expanded(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(2.0),
+            //           child: Container(
+            //             decoration: BoxDecoration(color: Colors.grey.shade200),
+            //             child: FlatButton(
+            //               child: Text("SORT"),
+            //               onPressed: () async {
+            //                 var _orderByResult = await showModalBottomSheet(
+            //                     shape: RoundedRectangleBorder(
+            //                       borderRadius: BorderRadius.vertical(
+            //                           top: Radius.circular(15.0)),
+            //                     ),
+            //                     context: context,
+            //                     builder: (context) => SortBottomSheet(
+            //                           selectedSort: _orderBy == 'asc' ? 2 : 1,
+            //                         ));
+            //                 if (_orderByResult != null) {
+            //                   _orderBy = _orderByResult;
+            //                   refreshKey.currentState.show();
+            //                 }
+            //               },
+            //               textColor: Colors.black,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //       Expanded(
+            //         child: Container(
+            //           decoration: BoxDecoration(color: Colors.grey.shade200),
+            //           child: FlatButton(
+            //             child: Text("NOTIFY ME"),
+            //             onPressed: () {
+            //               showModalBottomSheet(
+            //                   isScrollControlled: true,
+            //                   shape: RoundedRectangleBorder(
+            //                     borderRadius: BorderRadius.vertical(
+            //                         top: Radius.circular(15.0)),
+            //                   ),
+            //                   context: context,
+            //                   builder: (context) => NotifyBottomSheet(
+            //                         listingKey: listingScaffoldKey,
+            //                       ));
+            //             },
+            //             textColor: Colors.black,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            //   pinned: true,
+            // ),
             SliverToBoxAdapter(
               child: Container(
                 color: Colors.grey.shade200,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-                  child: Text(_title ?? "", style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),overflow: TextOverflow.ellipsis,),
+                  child: Text(
+                    _title ?? "",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ),
-
             PaginatedPetListing(
               notifyParent: refresh,
               future: pets,
@@ -295,15 +352,16 @@ class _PetListingState extends State<PetListing> {
               searchFieldIsEmpty: _searchFieldIsEmpty,
               refreshed: refreshed,
             ),
-
-          SliverToBoxAdapter(child:   Center(child: showIndicator ? DotsLoadingIndicator(size: 40,) : SizedBox()))
-
+            SliverToBoxAdapter(
+                child: Center(
+                    child: showIndicator
+                        ? DotsLoadingIndicator(
+                            size: 40,
+                          )
+                        : SizedBox()))
           ],
         ),
       ),
     );
   }
-
-
-
 }

@@ -1,4 +1,3 @@
-import 'package:agent_pet/src/pages/pet-detail_page.dart';
 import 'package:agent_pet/src/pages/pets-listing/pet-listing_page.dart';
 import 'package:agent_pet/src/widgets/carousel.dart';
 import 'package:agent_pet/src/widgets/new-pets-widget.dart';
@@ -419,32 +418,31 @@ class HomeView extends StatelessWidget {
                 () => AppNavigation.toPage(context, AppPage.featuredPets),
               ),
             ),
-            SizedBox(
-              height: 210,
-              child: Refreshable(
-                scrollDirection: Axis.horizontal,
-                controller: _featuredPetsController,
-                builder: (pet) => GestureDetector(
-                  child: NewPetsWidget(pet: pet),
-                  onTap: () {
-                    AppNavigation.to(context, PetDetailPage(pet: pet));
-                  },
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: SizedBox(
+                height: 210,
+                child: Refreshable(
+                  scrollDirection: Axis.horizontal,
+                  controller: _featuredPetsController,
+                  builder: (pet) => PetDetailBox(pet),
+                  fetcher: () => AppServices.pet.getFeaturedPets(),
+                  padding: const EdgeInsets.symmetric(horizontal: 2.5),
                 ),
-                fetcher: () => AppServices.pet.getFeaturedPets(),
               ),
             ),
-            // SizedBox(
-            //   height: 120,
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(top: 7.0, bottom: 14),
-            //     child: Carousel.live(
-            //       indicatorBuilder: Carousel.defaultIndicatorBuilder,
-            //       children: Assets.banners
-            //           .map((e) => Image.asset(e, fit: BoxFit.fitWidth))
-            //           .toList(),
-            //     ),
-            //   ),
-            // ),
+            SizedBox(
+              height: 120,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 7.0, bottom: 14),
+                child: Carousel.live(
+                  indicatorBuilder: Carousel.defaultIndicatorBuilder,
+                  children: Assets.banners
+                      .map((e) => Image.asset(e, fit: BoxFit.fitWidth))
+                      .toList(),
+                ),
+              ),
+            ),
             SectionHeader(
               'Newly Added Pets',
               SmallOutlinedButton(
@@ -452,18 +450,17 @@ class HomeView extends StatelessWidget {
                 () => AppNavigation.toPage(context, AppPage.newlyAddedPets),
               ),
             ),
-            SizedBox(
-              height: 210,
-              child: Refreshable(
-                controller: _newPetsController,
-                scrollDirection: Axis.horizontal,
-                builder: (pet) => GestureDetector(
-                  child: PetBox(pet),
-                  onTap: () {
-                    AppNavigation.to(context, PetDetailPage(pet: pet));
-                  },
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: SizedBox(
+                height: 210,
+                child: Refreshable(
+                  controller: _newPetsController,
+                  scrollDirection: Axis.horizontal,
+                  builder: (pet) => PetDetailBox(pet),
+                  fetcher: () => AppServices.pet.getNewlyAddedPets(),
+                  padding: const EdgeInsets.symmetric(horizontal: 2.5),
                 ),
-                fetcher: () => AppServices.pet.getNewlyAddedPets(),
               ),
             ),
             SectionHeader('Most Popular Pets in Pakistan'),

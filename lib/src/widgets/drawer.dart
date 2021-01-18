@@ -1,3 +1,5 @@
+import 'package:agent_pet/src/base/assets.dart';
+import 'package:agent_pet/src/base/theme.dart';
 import 'package:agent_pet/src/models/d.dart';
 import 'package:agent_pet/src/pages/add-or-edit-pet/main-add-or-edit-pet.dart';
 import 'package:agent_pet/src/pages/how-it-works_page.dart';
@@ -9,6 +11,7 @@ import 'package:agent_pet/src/pages/profile/my-alerts_page.dart';
 import 'package:agent_pet/src/pages/profile/my-orders_page.dart';
 import 'package:agent_pet/src/pages/profile/profile_page.dart';
 import 'package:agent_pet/src/services/auth_service.dart';
+
 // import 'package:agent_pet/src/pages/base_page.dart';
 import 'package:agent_pet/src/pages/contact_page.dart';
 import 'package:agent_pet/src/pages/pets-listing/pet-listing_page.dart';
@@ -31,422 +34,336 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Drawer(
-        elevation: 0,
-        child: SingleChildScrollView(
-          child: Column(
-              children: <Widget>[
-            AppBar(
-              automaticallyImplyLeading: false,
-
-              title: Image.asset("assets/agent-pet-logo.png", fit: BoxFit.cover,scale: 8,),
-              centerTitle: true,
-              actions: <Widget>[
-                IconButton(icon: Icon(Icons.close),onPressed: ()=> Navigator.of(context).pop(),)
+    return Drawer(
+      elevation: 0,
+      child: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          AppBar(
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            title: Image.asset(Assets.logo, fit: BoxFit.cover, scale: 8),
+          ),
+          SizedBox(height: 20),
+          if (LocalData.isSignedIn)
+            DrawerExpansionTile(
+              icon: Icon(
+                CupertinoIcons.person_circle,
+                color: Colors.grey.shade700,
+              ),
+              title: LocalData.user.name.toUpperCase(),
+              children: [
+                MiniDrawerTile(
+                  title: 'My Profile',
+                  onPressed: () async {
+                    await CustomNavigator.navigateTo(context, EditProfile());
+                    LocalData.reloadProfile();
+                  },
+                ),
+                MiniDrawerTile(
+                  title: 'My Ads',
+                  icon: Image.asset(Assets.petStore),
+                  onPressed: () async {
+                    CustomNavigator.navigateTo(context, MyAds());
+                  },
+                ),
+                MiniDrawerTile(
+                  title: 'Orders',
+                  icon: Icon(CupertinoIcons.square_list),
+                  onPressed: () async {
+                    CustomNavigator.navigateTo(context, MyOrders());
+                  },
+                ),
+                MiniDrawerTile(
+                  title: 'Messages',
+                  icon: Icon(CupertinoIcons.chat_bubble_2),
+                  onPressed: () async {
+                    CustomNavigator.navigateTo(context, MessagesPage());
+                  },
+                ),
+                MiniDrawerTile(
+                  title: 'Alert',
+                  icon: Icon(CupertinoIcons.bell),
+                  onPressed: () async {
+                    CustomNavigator.navigateTo(context, MyAlerts());
+                  },
+                ),
+                MiniDrawerTile(
+                  title: 'Logout',
+                  icon: Icon(Icons.exit_to_app),
+                  onPressed: () => AuthService().logOut(),
+                ),
               ],
-
-            ),
-            !LocalData.isSignedIn ?
-            ListTile(
-              dense:true,
-              title: Row(
-                children: <Widget>[
-                  CircleAvatar(maxRadius: 16,backgroundColor: Colors.grey.shade200, child: Icon(Icons.person_pin,color: Colors.grey.shade700,),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("SIGN IN / SIGN UP",style: TextStyle(fontWeight: FontWeight.bold
-                    ),),
-                  ),
-                ],
+            )
+          else
+            DrawerTile(
+              bold: true,
+              icon: Icon(
+                CupertinoIcons.person_circle,
+                color: Colors.grey.shade700,
               ),
-              onTap: () async{
-              await  CustomNavigator.navigateTo(context, LoginPage());
-              setState(() {
-
-              });
-              },
-            ) :
-                custom.ExpansionTile(
-
-                  title: Row(
-                    children: <Widget>[
-                      CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.person_pin,color: Colors.grey.shade700,),),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(LocalData.user.name.toUpperCase(),style: TextStyle(color: Colors.primaries[0],fontSize:15,fontWeight: FontWeight.bold
-                        ),),
-                      ),
-                    ],
-                  ),
-
-                  children: <Widget>[
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.account_circle,size: 17,color: Colors.grey.shade800),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("My Profile",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: () async {
-                      await  CustomNavigator.navigateTo(context, EditProfile());
-                      LocalData.reloadProfile();
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.pets,size: 17,color: Colors.grey.shade800),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("My Ads",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: () {
-                        CustomNavigator.navigateTo(context, MyAds());
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.description,size: 17,color: Colors.grey.shade800),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Orders",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: (){
-                        CustomNavigator.navigateTo(context,  MyOrders());
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.message,size: 17,color: Colors.grey.shade800),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Messages",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: (){
-                        CustomNavigator.navigateTo(context, MessagesPage());
-
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.notifications,size: 17,color: Colors.grey.shade800),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Alerts",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: (){
-                        CustomNavigator.navigateTo(context, MyAlerts());
-
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.exit_to_app, color: Colors.grey.shade800)),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Logout",style: TextStyle()),
-                          ),
-                        ],
-                      ),
-                      onTap: ()  {
-                        AuthService().logOut();
-                        // CustomNavigator.navigateTo(context, BasePage());
-                      },
-                    )
-
-
-                  ],
-                ),
-
-            Divider(),
-                ListTile(
-              dense:true,
-              title: Row(
-                children: <Widget>[
-                  CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/cat-add-pet.png"),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Post Pet Ad",style: TextStyle(
-                    ),),
-                  ),
-                  Container(
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Text("FREE", style: TextStyle(color: Colors.white, fontSize: 10))
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.primaries[0], borderRadius: BorderRadius.circular(10)
-                      )
-                  )
-                ],
-              ),
-              onTap: (){
-                CustomNavigator.navigateTo(context, LocalData.isSignedIn ? AddPetPage() : LoginPage());
+              title: 'SIGN IN / SIGN UP',
+              onPressed: () async {
+                await CustomNavigator.navigateTo(context, LoginPage());
+                setState(() {});
               },
             ),
-                Divider(),
-                custom.ExpansionTile(
-
-                  title: Row(
-                    children: <Widget>[
-                      CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/pet-store.png",color: Colors.black,),),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Pet Store",style: TextStyle(color: Colors.black
-                        ),),
-                      ),
-                    ],
-                  ),
-                  children: <Widget>[
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/dog.png",scale:2,color: Colors.grey.shade800,),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Dog",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: () {
-                        CustomNavigator.navigateTo(context, ProductListing(listing: 10,petTypeId: 2,petName: 'Dog'));
-                        },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/cat.png",scale:2,color: Colors.grey.shade800,),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Cat",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: (){
-                        CustomNavigator.navigateTo(context, ProductListing(listing: 10,petTypeId: 1,petName: 'Cat'));
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/bird.png",scale:2,color: Colors.grey.shade800,),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Bird",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: (){
-                        CustomNavigator.navigateTo(context, ProductListing(listing: 10,petTypeId: 6,petName: 'Bird'));
-                      },
-                    ),
-                    Divider(),
-                    ListTile(
-                      dense:true,
-                      title: Row(
-                        children: <Widget>[
-                          CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/fish.png",scale:2,color: Colors.grey.shade800,),),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Fish",style: TextStyle(
-                            ),),
-                          ),
-                        ],
-                      ),
-                      onTap: (){
-                        CustomNavigator.navigateTo(context, ProductListing(listing: 10,petTypeId: 3,petName: 'Fish'));
-                      },
-                    ),
-                    Divider(),
-
-                  ],
-                ),
-
-
-                Divider(),
-
-                ListTile(
-
-              dense:true,
-              title: Row(
-                children: <Widget>[
-                  CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/buy-sell-icon.png",scale:2,color: Colors.grey.shade800,),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Buy / Sell Pet",style: TextStyle(
-                    ),),
-                  ),
-                ],
+          DrawerTile(
+            title: 'Post Pet Ad',
+            icon: Image.asset(Assets.addPet, width: 32),
+            onPressed: () {
+              CustomNavigator.navigateTo(
+                  context, LocalData.isSignedIn ? AddPetPage() : LoginPage());
+            },
+          ),
+          DrawerExpansionTile(
+            title: 'Pet Store',
+            icon: Icon(Icons.storefront, color: Colors.grey.shade700),
+            children: [
+              MiniDrawerTile(
+                title: 'Dog',
+                icon: Image.asset(Assets.dog),
+                onPressed: () {
+                  CustomNavigator.navigateTo(
+                    context,
+                    ProductListing(listing: 10, petTypeId: 2, petName: 'Dog'),
+                  );
+                },
               ),
-              onTap: (){
-//                CustomNavigator.navigateTo(context, PetListingTest());
-                CustomNavigator.navigateTo(context, PetListing(listing: 0,));
-              },
-            ),
-
-                Divider(),
-
-                ListTile(
-                  dense:true,
-                  title: Row(
-                    children: <Widget>[
-                      CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child:  Image.asset("assets/icons/mate.png",scale:2,color: Colors.grey.shade800,),),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Adopt A Pet",style: TextStyle(
-                        ),),
-                      ),
-                    ],
-                  ),
-                  onTap: (){
-                    CustomNavigator.navigateTo(context, PetListing(listing: 1,));
-                  },
-                ),
-            Divider(),
-
-                ListTile(
-                  dense:true,
-                  title: Row(
-                    children: <Widget>[
-                      CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child:  Image.asset("assets/icons/plane.png",scale:2,color: Colors.grey.shade800,),),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Pet Relocation",style: TextStyle(
-                        ),),
-                      ),
-                    ],
-                  ),
-                  onTap: (){
-                    CustomNavigator.navigateTo(context, PetRelocationPage());
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  dense:true,
-                  title: Row(
-                    children: <Widget>[
-                      CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Image.asset("assets/icons/veterinary.png",color: Colors.grey.shade800,),),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Pets & Vets",style: TextStyle(
-                        ),),
-                      ),
-                    ],
-                  ),
-                  onTap: (){
-                    CustomNavigator.navigateTo(context, PetAndVetPage());
-                  },
-                ),
-                Divider(),
-               ListTile(
-                 dense:true,
-                 title: Row(
-                   children: <Widget>[
-                     CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.favorite,size: 22,color: Colors.grey.shade800,),),
-                     Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Text("My Favorites",style: TextStyle(
-                       ),),
-                     ),
-                   ],
-                 ),
-                 onTap: (){
-                   CustomNavigator.navigateTo(context, SavedAds());
-                 },
-               ),
-
-
-               Divider() ,
-
-
-                ListTile(
-                  dense:true,
-                  title: Row(
-                    children: <Widget>[
-                      CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.info,color: Colors.grey.shade800,),),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("How It Works",style: TextStyle(
-                        ),),
-                      ),
-                    ],
-                  ),
-                  onTap: (){
-                    CustomNavigator.navigateTo(context, HowItWorks());
-                  },
-                ),
-                Divider(),
-
-            ListTile(
-              dense:true,
-              title: Row(
-                children: <Widget>[
-                  CircleAvatar(maxRadius: 16,backgroundColor: Colors.white,child: Icon(Icons.mail,color: Colors.grey.shade800,),),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Contact",style: TextStyle(
-                    ),),
-                  ),
-                ],
+              MiniDrawerTile(
+                title: 'Cat',
+                icon: Image.asset(Assets.cat),
+                onPressed: () {
+                  CustomNavigator.navigateTo(
+                    context,
+                    ProductListing(listing: 10, petTypeId: 1, petName: 'Cat'),
+                  );
+                },
               ),
-              onTap: (){
-                CustomNavigator.navigateTo(context, Contact());
-              },
+              MiniDrawerTile(
+                title: 'Bird',
+                icon: Image.asset(Assets.bird),
+                onPressed: () {
+                  CustomNavigator.navigateTo(
+                    context,
+                    ProductListing(listing: 10, petTypeId: 6, petName: 'Bird'),
+                  );
+                },
+              ),
+              MiniDrawerTile(
+                title: 'Fish',
+                icon: Image.asset(Assets.fish),
+                onPressed: () {
+                  CustomNavigator.navigateTo(
+                    context,
+                    ProductListing(listing: 10, petTypeId: 3, petName: 'Fish'),
+                  );
+                },
+              ),
+            ],
+          ),
+          DrawerTile(
+            title: 'Buy / Sell Pet',
+            icon: Image.asset(
+              Assets.buySell,
+              width: 25,
+              color: Colors.grey.shade700,
             ),
-            Divider(),
+            onPressed: () {
+              CustomNavigator.navigateTo(context, PetListing(listing: 0));
+            },
+          ),
+          DrawerTile(
+            icon: Image.asset(Assets.mate, color: Colors.grey.shade700),
+            title: 'Adopt a Pet',
+            onPressed: () {
+              CustomNavigator.navigateTo(
+                  context,
+                  PetListing(
+                    listing: 1,
+                  ));
+            },
+          ),
+          DrawerTile(
+            icon: Icon(CupertinoIcons.airplane, color: Colors.grey.shade700),
+            title: 'Pet Relocation',
+            onPressed: () {
+              CustomNavigator.navigateTo(context, PetRelocationPage());
+            },
+          ),
+          DrawerTile(
+            icon: Image.asset(Assets.veterinary,
+                width: 25, color: Colors.grey.shade700),
+            title: 'Pets & Vets',
+            onPressed: () {
+              CustomNavigator.navigateTo(context, PetAndVetPage());
+            },
+          ),
+          DrawerTile(
+            icon: Icon(CupertinoIcons.heart, color: Colors.grey.shade700),
+            title: 'My Favorites',
+            onPressed: () {
+              CustomNavigator.navigateTo(context, SavedAds());
+            },
+          ),
+          DrawerTile(
+            icon: Icon(CupertinoIcons.info_circle, color: Colors.grey.shade700),
+            title: 'How it works',
+            onPressed: () {
+              CustomNavigator.navigateTo(context, HowItWorks());
+            },
+          ),
+          DrawerTile(
+            icon: Icon(CupertinoIcons.mail, color: Colors.grey.shade700),
+            title: 'Contact Us',
+            onPressed: () {
+              CustomNavigator.navigateTo(context, Contact());
+            },
+          ),
+        ]),
+      ),
+    );
+  }
+}
 
+class DrawerTile extends StatelessWidget {
+  final bool bold;
+  final bool isLast;
+  final Color color;
+  final Widget icon;
+  final String title;
+  final Function onPressed;
+  final List<Widget> trailings;
 
+  DrawerTile({
+    this.title,
+    this.icon,
+    this.color,
+    this.onPressed,
+    this.trailings,
+    this.isLast = false,
+    this.bold = false,
+  });
 
-
+  @override
+  Widget build(BuildContext context) {
+    final button = Padding(
+      padding: const EdgeInsets.only(right: 25),
+      child: SizedBox(
+        height: 45,
+        child: TextButton(
+          child: Row(children: [
+            SizedBox(width: 30, height: 30, child: Center(child: icon)),
+            SizedBox(width: 15),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.grey.shade900,
+                fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+            ...?trailings,
           ]),
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            backgroundColor: color,
+            primary: AppTheme.primaryColor,
+            padding: const EdgeInsets.only(left: 15),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.horizontal(right: Radius.circular(30)),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    if (isLast) {
+      return button;
+    } else {
+      return DecoratedBox(
+        child: button,
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey.shade200))),
+      );
+    }
+  }
+}
+
+class MiniDrawerTile extends StatelessWidget {
+  final Widget icon;
+  final String title;
+  final VoidCallback onPressed;
+
+  MiniDrawerTile({this.title, this.onPressed, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 25),
+      child: SizedBox(
+        height: 35,
+        child: TextButton(
+          child: Row(children: [
+            SizedBox(width: 23, height: 23, child: icon),
+            SizedBox(width: 15),
+            Text(title, style: TextStyle(color: Colors.grey.shade900)),
+          ]),
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            primary: AppTheme.primaryColor,
+            padding: const EdgeInsets.only(left: 40),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.horizontal(right: Radius.circular(30)),
+            ),
+          ),
         ),
       ),
     );
   }
 }
 
+class DrawerExpansionTile extends StatefulWidget {
+  final Widget icon;
+  final String title;
+  final List<Widget> children;
 
+  DrawerExpansionTile({
+    this.title,
+    this.icon,
+    this.children = const [],
+  });
 
+  @override
+  _DrawerExpansionTileState createState() => _DrawerExpansionTileState();
+}
 
+class _DrawerExpansionTileState extends State<DrawerExpansionTile> {
+  var active = false;
 
-
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+      ),
+      child: Wrap(children: [
+        DrawerTile(
+          isLast: true,
+          icon: widget.icon,
+          title: widget.title,
+          trailings: [
+            Spacer(),
+            Icon(
+              CupertinoIcons.chevron_forward,
+              size: 20,
+              color: Colors.grey.shade600,
+            ),
+            SizedBox(width: 5)
+          ],
+          color: active ? AppTheme.primaryColor.withOpacity(.15) : null,
+          onPressed: () => setState(() => active = !active),
+        ),
+        if (active && widget.children.isNotEmpty) ...widget.children
+      ]),
+    );
+  }
+}
