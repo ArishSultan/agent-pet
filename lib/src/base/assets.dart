@@ -14,6 +14,7 @@ abstract class Assets {
   static const petBuySell = 'assets/icons/buy_sell_icon.webp';
 
   /// Animal Icons
+  static const shopByBrand = 'assets/icons/shop_by_brand.webp';
   static const dog = 'assets/icons/animals/dog.png';
   static const cat = 'assets/icons/animals/cat.png';
   static const bird = 'assets/icons/animals/bird.png';

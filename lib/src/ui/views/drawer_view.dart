@@ -48,6 +48,7 @@ class _DrawerViewState extends State<DrawerView> {
               children: [
                 MiniDrawerTile(
                   title: 'My Profile',
+                  icon: Icon(CupertinoIcons.person, color: Colors.grey.shade800),
                   onPressed: () async {
                     await CustomNavigator.navigateTo(context, EditProfile());
                     LocalData.reloadProfile();
@@ -55,35 +56,35 @@ class _DrawerViewState extends State<DrawerView> {
                 ),
                 MiniDrawerTile(
                   title: 'My Ads',
-                  icon: Image.asset(Assets.petStore),
+                  icon: Image.asset(Assets.petStore, color: Colors.grey.shade800),
                   onPressed: () async {
                     CustomNavigator.navigateTo(context, MyAds());
                   },
                 ),
                 MiniDrawerTile(
                   title: 'Orders',
-                  icon: Icon(CupertinoIcons.square_list),
+                  icon: Icon(CupertinoIcons.square_list, color: Colors.grey.shade800),
                   onPressed: () async {
                     CustomNavigator.navigateTo(context, MyOrders());
                   },
                 ),
                 MiniDrawerTile(
                   title: 'Messages',
-                  icon: Icon(CupertinoIcons.chat_bubble_2),
+                  icon: Icon(CupertinoIcons.chat_bubble_2, color: Colors.grey.shade800),
                   onPressed: () async {
                     CustomNavigator.navigateTo(context, MessagesPage());
                   },
                 ),
                 MiniDrawerTile(
                   title: 'Alert',
-                  icon: Icon(CupertinoIcons.bell),
+                  icon: Icon(CupertinoIcons.bell, color: Colors.grey.shade800),
                   onPressed: () async {
                     CustomNavigator.navigateTo(context, MyAlerts());
                   },
                 ),
                 MiniDrawerTile(
                   title: 'Logout',
-                  icon: Icon(Icons.exit_to_app),
+                  icon: Icon(Icons.exit_to_app, color: Colors.grey.shade800),
                   onPressed: () => AuthService().logOut(),
                 ),
               ],

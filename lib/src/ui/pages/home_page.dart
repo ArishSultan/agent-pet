@@ -1,7 +1,8 @@
+import 'package:agent_pet/src/pages/pet-store_page.dart';
+import 'package:agent_pet/src/ui/views/drawer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:agent_pet/src/base/assets.dart';
-import 'file:///D:/Workspace/Tools/Flutter/agent_pet/lib/src/ui/views/drawer_view.dart';
 import 'package:agent_pet/src/widgets/search_bar.dart';
 import 'package:agent_pet/src/ui/views/home_view.dart';
 import 'package:agent_pet/src/ui/views/localized_view.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
   static const _shiftCurve = Curves.ease;
   static const _shiftDuration = Duration(milliseconds: 500);
 
-  static final _views = [HomeView()];
+  static final _views = [HomeView(), PetStorePage()];
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +30,17 @@ class HomePage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        drawer: DrawerWidget(),
+        drawer: DrawerView(),
         extendBody: true,
         appBar: AppBar(
           centerTitle: true,
           actions: [CartButtonBadged(), FavoriteButtonBadged()],
-          title: Image.asset(Assets.logo, fit: BoxFit.cover, scale: 8),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(60),
-            child: Hero(tag: 'main_search_bar', child: SearchBar()),
-          ),
+          title: Image.asset(Assets.logo, fit: BoxFit.cover, scale: 8)
         ),
         body: PageView(
           controller: _controller,
           physics: NeverScrollableScrollPhysics(),
-          children: [
-            HomeView(),
-            HomeView(),
-          ],
+          children: _views,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: SizedBox(

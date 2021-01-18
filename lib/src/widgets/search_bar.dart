@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
   final String placeholder;
+  final VoidCallback onPressed;
 
-  SearchBar({this.placeholder = 'Search here...'});
+  SearchBar({this.placeholder = 'Search here...', this.onPressed});
 
   final _controller = TextEditingController();
 
@@ -27,6 +28,7 @@ class SearchBar extends StatelessWidget {
               child: Icon(CupertinoIcons.search,
                   size: 22, color: Colors.grey.shade500),
             ),
+            onTap: onPressed,
             cursorColor: Theme.of(context).primaryColor,
             clearButtonMode: OverlayVisibilityMode.editing,
             decoration: BoxDecoration(
