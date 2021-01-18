@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:agent_pet/src/base/assets.dart';
-import 'package:agent_pet/src/widgets/drawer.dart';
+import 'file:///D:/Workspace/Tools/Flutter/agent_pet/lib/src/ui/views/drawer_view.dart';
 import 'package:agent_pet/src/widgets/search_bar.dart';
 import 'package:agent_pet/src/ui/views/home_view.dart';
 import 'package:agent_pet/src/ui/views/localized_view.dart';

@@ -1,6 +1,5 @@
 import 'package:agent_pet/src/base/assets.dart';
 import 'package:agent_pet/src/base/theme.dart';
-import 'package:agent_pet/src/models/d.dart';
 import 'package:agent_pet/src/pages/add-or-edit-pet/main-add-or-edit-pet.dart';
 import 'package:agent_pet/src/pages/how-it-works_page.dart';
 import 'package:agent_pet/src/pages/pet-relocation/main-pet-relocation.dart';
@@ -9,10 +8,7 @@ import 'package:agent_pet/src/pages/profile/edit-profile_page.dart';
 import 'package:agent_pet/src/pages/profile/my-ads_page.dart';
 import 'package:agent_pet/src/pages/profile/my-alerts_page.dart';
 import 'package:agent_pet/src/pages/profile/my-orders_page.dart';
-import 'package:agent_pet/src/pages/profile/profile_page.dart';
 import 'package:agent_pet/src/services/auth_service.dart';
-
-// import 'package:agent_pet/src/pages/base_page.dart';
 import 'package:agent_pet/src/pages/contact_page.dart';
 import 'package:agent_pet/src/pages/pets-listing/pet-listing_page.dart';
 import 'package:agent_pet/src/pages/pets-and-vets_page.dart';
@@ -24,14 +20,12 @@ import 'package:agent_pet/src/utils/local-data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'custom-expansion-tile.dart' as custom;
-
-class DrawerWidget extends StatefulWidget {
+class DrawerView extends StatefulWidget {
   @override
-  _DrawerWidgetState createState() => _DrawerWidgetState();
+  _DrawerViewState createState() => _DrawerViewState();
 }
 
-class _DrawerWidgetState extends State<DrawerWidget> {
+class _DrawerViewState extends State<DrawerView> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
