@@ -1,3 +1,4 @@
+import 'package:agent_pet/src/base/assets.dart';
 import 'package:agent_pet/src/pages/pet-relocation/main-pet-relocation.dart';
 import 'package:agent_pet/src/services/_service.dart';
 import 'package:agent_pet/src/utils/custom-navigator.dart';
@@ -26,6 +27,7 @@ class _RelocationState extends State<Relocation> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 70),
       child: Column(
         children: <Widget>[
           Container(
@@ -75,7 +77,7 @@ class _RelocationState extends State<Relocation> {
                       height: 20,
                     ),
                     ClipRRect(child:
-                    Image.asset("assets/how-it-works-img3.jpg",scale: 3),
+                    Image.asset(Assets.howItWorks3, scale: 3),
                       borderRadius: BorderRadius.circular(10),),
                     Center(child: Text("Now along with your luggage you can move your pets too! You don’t have to say your good-byes or sell your beloved pets, all you have to do is contact our website Agentpet.com",style: TextStyle(
                         fontSize: 15

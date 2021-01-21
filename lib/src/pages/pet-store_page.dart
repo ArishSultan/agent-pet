@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:agent_pet/src/base/assets.dart';
-import 'package:agent_pet/src/base/theme.dart';
 import 'package:agent_pet/src/models/brand.dart';
 import 'package:agent_pet/src/models/paginated-product.dart';
 import 'package:agent_pet/src/pages/products-listing/product-listing_page.dart';
@@ -10,7 +9,6 @@ import 'package:agent_pet/src/services/paginated-product-service.dart';
 import 'package:agent_pet/src/pages/product-detail_page.dart';
 import 'package:agent_pet/src/widgets/loading-builder.dart';
 import 'package:agent_pet/src/widgets/product-card-widget.dart';
-import 'package:agent_pet/src/widgets/search_bar.dart';
 import 'package:agent_pet/src/widgets/sliver-section-header.dart';
 import 'package:agent_pet/src/widgets/tab-view-indexed.dart';
 import 'package:agent_pet/src/utils/custom-navigator.dart';
@@ -20,69 +18,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'search-pages/pet-search-page.dart';
 import 'search-pages/product-search.dart';
-
-class _PetTypeMeta {
-  final int type;
-  final int index;
-  final String title;
-  final String image;
-  final IconData icon;
-
-  const _PetTypeMeta({
-    this.icon,
-    this.type,
-    this.index,
-    this.title,
-    this.image,
-  });
-
-  static const all = [
-    _PetTypeMeta(
-      type: 0,
-      index: 0,
-      title: 'PET STORE',
-      icon: CupertinoIcons.cart,
-    ),
-    _PetTypeMeta(
-      type: 0,
-      index: 1,
-      title: 'SHOP BY BRANDS',
-      image: Assets.shopByBrand,
-    ),
-    _PetTypeMeta(index: 2, image: Assets.dog, title: 'DOG', type: 2),
-    _PetTypeMeta(index: 3, image: Assets.cat, title: 'CAT', type: 1),
-    _PetTypeMeta(index: 4, image: Assets.bird, title: 'BIRD', type: 6),
-    _PetTypeMeta(index: 5, image: Assets.fish, title: 'FISH', type: 3),
-    _PetTypeMeta(index: 6, image: Assets.rabbit, title: 'RABBIT', type: 13),
-    _PetTypeMeta(index: 7, image: Assets.parrot, title: 'PARROT', type: 4),
-    _PetTypeMeta(index: 8, image: Assets.cow, title: 'COW', type: 5),
-    _PetTypeMeta(index: 9, image: Assets.lion, title: 'LION', type: 3879),
-    _PetTypeMeta(index: 10, image: Assets.monkey, title: 'MONKEY', type: 10),
-    _PetTypeMeta(index: 11, image: Assets.hamster, title: 'HAMSTER', type: 19),
-    _PetTypeMeta(index: 12, image: Assets.lizard, title: 'LIZARD', type: 15),
-    _PetTypeMeta(index: 13, image: Assets.horse, title: 'PONY', type: 12),
-    _PetTypeMeta(index: 14, image: Assets.iguana, title: 'IGUANA', type: 8),
-    _PetTypeMeta(index: 15, image: Assets.ferret, title: 'FERRET', type: 7),
-    _PetTypeMeta(
-      type: 14,
-      index: 16,
-      title: 'CROCODILE',
-      image: Assets.crocodile,
-    ),
-    _PetTypeMeta(index: 17, image: Assets.pig, title: 'PIG', type: 3409),
-    _PetTypeMeta(index: 18, image: Assets.pony, title: 'HORSE', type: 9),
-    _PetTypeMeta(index: 19, image: Assets.snake, title: 'SNAKE', type: 16),
-    _PetTypeMeta(index: 20, image: Assets.frog, title: 'FROG', type: 18),
-    _PetTypeMeta(index: 21, image: Assets.turtle, title: 'TURTLE', type: 17),
-    _PetTypeMeta(index: 22, image: Assets.pig, title: 'GUINEA PIG', type: 3409),
-    _PetTypeMeta(
-      index: 23,
-      type: 3692,
-      title: 'OTHER PET',
-      icon: CupertinoIcons.paw,
-    ),
-  ];
-}
 
 class PetStorePage extends StatefulWidget {
   static int _prevCat = 0;
@@ -242,166 +177,356 @@ class _PetStorePageState extends State<PetStorePage>
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: <Widget>[
-      SliverAppBar(
-        floating: true,
-        titleSpacing: 0,
-        automaticallyImplyLeading: false,
-        title: SearchBar(onPressed: () {
-          CustomNavigator.navigateTo(context, ProductSearchPage());
-        }),
-      ),
-      SliverList(
-        delegate: SliverChildListDelegate.fixed([
-          _TabBar(),
-
-        ]),
-      ),
-      _tab,
-      SliverToBoxAdapter(
-        child: Container(
-          color: Colors.grey.shade200,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: Text(
-                    this._count + this._title,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Material(
+        child: CustomScrollView(slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Container(
+              color: Colors.primaries[0],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () {
+                    CustomNavigator.navigateTo(context, ProductSearchPage());
+                  },
+                  child: Container(
+                    height: 48.0,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 8),
+                          child: Icon(
+                            Icons.search,
+                            size: 22,
+                          ),
+                        ),
+                        Text(
+                          "Search",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: 100,
+                child: Card(
+                  child: Column(
+                    children: <Widget>[
+                      TabBar(
+                          tabs: <Widget>[
+                            tabBarButton(
+                                index: 0,
+                                icon: CupertinoIcons.cart,
+                                title: 'PET STORE',
+                                petTypeId: 0),
+                            tabBarButton(
+                                index: 1,
+                                image: Assets.shopByBrand,
+                                title: 'SHOP BY BRANDS',
+                                petTypeId: 0),
+                            tabBarButton(
+                                index: 2,
+                                image: Assets.dog,
+                                title: 'DOG',
+                                petTypeId: 2),
+                            tabBarButton(
+                                index: 3,
+                                image: Assets.cat,
+                                title: 'CAT',
+                                petTypeId: 1),
+                            tabBarButton(
+                                index: 4,
+                                image: Assets.bird,
+                                title: 'BIRD',
+                                petTypeId: 6),
+                            tabBarButton(
+                                index: 5,
+                                image: Assets.fish,
+                                title: 'FISH',
+                                petTypeId: 3),
+                            tabBarButton(
+                                index: 6,
+                                image: Assets.rabbit,
+                                title: 'Rabbit',
+                                petTypeId: 13),
+                            tabBarButton(
+                                index: 7,
+                                image: Assets.parrot,
+                                title: 'Parrot',
+                                petTypeId: 4),
+                            tabBarButton(
+                                index: 8,
+                                image: Assets.cow,
+                                title: 'Cow',
+                                petTypeId: 5),
+                            tabBarButton(
+                                index: 9,
+                                image: Assets.lion,
+                                title: 'Lion',
+                                petTypeId: 3879),
+                            tabBarButton(
+                                index: 10,
+                                image: Assets.monkey,
+                                title: 'Monkey',
+                                petTypeId: 10),
+                            tabBarButton(
+                                index: 11,
+                                image: Assets.hamster,
+                                title: 'Hamsters',
+                                petTypeId: 19),
+                            tabBarButton(
+                                index: 12,
+                                image: Assets.lizard,
+                                title: 'Lizard',
+                                petTypeId: 15),
+                            tabBarButton(
+                                index: 13,
+                                image: Assets.pony,
+                                title: 'Pony',
+                                petTypeId: 12),
+                            tabBarButton(
+                                index: 14,
+                                image: Assets.iguana,
+                                title: 'Iguana',
+                                petTypeId: 8),
+                            tabBarButton(
+                                index: 15,
+                                image: Assets.ferret,
+                                title: 'Ferret',
+                                petTypeId: 7),
+                            tabBarButton(
+                                index: 16,
+                                image: Assets.crocodile,
+                                title: 'Crocodile',
+                                petTypeId: 14),
+                            tabBarButton(
+                                index: 17,
+                                image: Assets.pig,
+                                title: 'Pig',
+                                petTypeId: 3409),
+                            tabBarButton(
+                                index: 18,
+                                image: Assets.horse,
+                                title: 'Horse',
+                                petTypeId: 9),
+                            tabBarButton(
+                                index: 19,
+                                image: Assets.snake,
+                                title: 'Snake',
+                                petTypeId: 16),
+                            tabBarButton(
+                                index: 20,
+                                image: Assets.frog,
+                                title: 'Frog',
+                                petTypeId: 18),
+                            tabBarButton(
+                                index: 21,
+                                image: Assets.turtle,
+                                title: 'Turtle',
+                                petTypeId: 17),
+                            tabBarButton(
+                                index: 22,
+                                image: Assets.pig,
+                                title: 'Guinea Pig',
+                                petTypeId: 3409),
+                            tabBarButton(
+                                index: 23,
+                                icon: CupertinoIcons.paw,
+                                title: 'Other Pet',
+                                petTypeId: 3692),
+                          ],
+                          indicatorColor: Colors.primaries[0],
+                          controller: _controller,
+                          isScrollable: true),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Row(
+                              children:
+                                  List.generate(_controller.length, (val) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 3),
+                                  child: Container(
+                                    width: 5,
+                                    height: 5,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(2.5),
+                                      color: val == _controller.index
+                                          ? Colors.primaries[0]
+                                          : Colors.grey.shade300,
+                                    ),
+                                  ),
+                                );
+                              }),
+                              mainAxisAlignment: MainAxisAlignment.center),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          _tab,
+          SliverToBoxAdapter(
+            child: Container(
+              color: Colors.grey.shade200,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: Text(
+                        this._count + this._title,
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
 //                    Spacer(),
-                viewAllBtn(onPressed: () {
-                  CustomNavigator.navigateTo(
-                      context,
-                      ProductListing(
-                        listing: _listing,
-                        petTypeId: petTypeId,
-                        petName: _petName,
-                        category: _category,
-                        brandId: _brandId,
-                        title: _brandName,
-                      ));
-                })
-              ],
+                    viewAllBtn(onPressed: () {
+                      CustomNavigator.navigateTo(
+                          context,
+                          ProductListing(
+                            listing: _listing,
+                            petTypeId: petTypeId,
+                            petName: _petName,
+                            category: _category,
+                            brandId: _brandId,
+                            title: _brandName,
+                          ));
+                    })
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Container(
-            color: Colors.white,
-            height: 230,
-            child: SimpleFutureBuilder<List<PaginatedProduct>>.simpler(
-              future: this._products,
-              context: context,
-              builder: (AsyncSnapshot<List<PaginatedProduct>> snapshot) {
-                var products = snapshot.data[0].product;
-                return products.isNotEmpty
-                    ? ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: products.length,
-                        itemBuilder: (context, i) {
-                          return ProductCard(
-                            product: products[i],
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Container(
+                color: Colors.white,
+                height: 230,
+                child: SimpleFutureBuilder<List<PaginatedProduct>>.simpler(
+                  future: this._products,
+                  context: context,
+                  builder: (AsyncSnapshot<List<PaginatedProduct>> snapshot) {
+                    var products = snapshot.data[0].product;
+                    return products.isNotEmpty
+                        ? ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: products.length,
+                            itemBuilder: (context, i) {
+                              return ProductCard(
+                                product: products[i],
+                              );
+                            },
+                          )
+                        : Center(
+                            child: Text(
+                                "No Food or Accessories in this category."),
                           );
-                        },
-                      )
-                    : Center(
-                        child: Text("No Food or Accessories in this category."),
-                      );
-              },
+                  },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      SliverSectionHeader(this._fAccCount + ' Featured Accessories',
-          viewAllBtn(onPressed: () {
-        CustomNavigator.navigateTo(context, ProductListing(listing: 6));
-      })),
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Container(
-            color: Colors.white,
-            height: 230,
-            child: SimpleFutureBuilder<List<PaginatedProduct>>.simpler(
-              future: this._featuredAccessories,
-              context: context,
-              builder: (AsyncSnapshot<List<PaginatedProduct>> snapshot) {
-                var products = snapshot.data[0].product;
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
-                  itemBuilder: (context, i) {
-                    return Material(
-                      child: InkWell(
-                        onTap: () {
-                          CustomNavigator.navigateTo(
-                              context, ProductDetailPage(product: products[i]));
-                        },
-                        child: ProductCard(
-                          product: products[i],
-                        ),
-                      ),
+          SliverSectionHeader(this._fAccCount + ' Featured Accessories',
+              viewAllBtn(onPressed: () {
+            CustomNavigator.navigateTo(context, ProductListing(listing: 6));
+          })),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Container(
+                color: Colors.white,
+                height: 230,
+                child: SimpleFutureBuilder<List<PaginatedProduct>>.simpler(
+                  future: this._featuredAccessories,
+                  context: context,
+                  builder: (AsyncSnapshot<List<PaginatedProduct>> snapshot) {
+                    var products = snapshot.data[0].product;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: products.length,
+                      itemBuilder: (context, i) {
+                        return Material(
+                          child: InkWell(
+                            onTap: () {
+                              CustomNavigator.navigateTo(context,
+                                  ProductDetailPage(product: products[i]));
+                            },
+                            child: ProductCard(
+                              product: products[i],
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      SliverSectionHeader(this._onSaleCount + ' Products On Sale',
-          viewAllBtn(onPressed: () {
-        CustomNavigator.navigateTo(
-            context,
-            ProductListing(
-              listing: 1,
-            ));
-      })),
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Container(
-            color: Colors.white,
-            height: 230,
-            child: SimpleFutureBuilder<List<PaginatedProduct>>.simpler(
-              future: this._onSale,
-              context: context,
-              builder: (AsyncSnapshot<List<PaginatedProduct>> snapshot) {
-                var products = snapshot.data[0].product;
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
-                  itemBuilder: (context, i) {
-                    return Material(
-                      child: InkWell(
-                        onTap: () {
-                          CustomNavigator.navigateTo(
-                              context, ProductDetailPage(product: products[i]));
-                        },
-                        child: ProductCard(
-                          product: products[i],
-                        ),
-                      ),
+          SliverSectionHeader(this._onSaleCount + ' Products On Sale',
+              viewAllBtn(onPressed: () {
+            CustomNavigator.navigateTo(
+                context,
+                ProductListing(
+                  listing: 1,
+                ));
+          })),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Container(
+                color: Colors.white,
+                height: 230,
+                child: SimpleFutureBuilder<List<PaginatedProduct>>.simpler(
+                  future: this._onSale,
+                  context: context,
+                  builder: (AsyncSnapshot<List<PaginatedProduct>> snapshot) {
+                    var products = snapshot.data[0].product;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: products.length,
+                      itemBuilder: (context, i) {
+                        return Material(
+                          child: InkWell(
+                            onTap: () {
+                              CustomNavigator.navigateTo(context,
+                                  ProductDetailPage(product: products[i]));
+                            },
+                            child: ProductCard(
+                              product: products[i],
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ),
             ),
-          ),
-        ),
-      )
-    ]);
+          )
+        ]),
+      ),
+    );
   }
 
   Widget _petStoreTab() {
@@ -411,7 +536,7 @@ class _PetStorePageState extends State<PetStorePage>
         child: Table(
           children: <TableRow>[
             TableRow(children: <Widget>[
-              _buildIcon('assets/icons/new_tag.png', 'New Arrivals', () {
+              _buildIcon(Assets.newIcon, 'New Arrivals', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 0));
 //                _listing=0;
 //                setState(() {
@@ -422,7 +547,7 @@ class _PetStorePageState extends State<PetStorePage>
 //                });
 //
               }),
-              _buildIcon('assets/icons/popular.png', 'Popular Products', () {
+              _buildIcon(Assets.popular, 'Popular Products', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 7));
 
 //                _listing=7;
@@ -436,7 +561,7 @@ class _PetStorePageState extends State<PetStorePage>
               }),
             ]),
             TableRow(children: <Widget>[
-              _buildIcon('assets/icons/bowl.png', 'Featured Food', () {
+              _buildIcon(Assets.bowl, 'Featured Food', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 5));
 //                _listing=5;
 //                setState(() {
@@ -446,7 +571,7 @@ class _PetStorePageState extends State<PetStorePage>
 //                  this._products.then((val) => _updateCount(val[0].total.toString()));
 //                });
               }),
-              _buildIcon('assets/icons/collar.png', 'Featured Accessories', () {
+              _buildIcon(Assets.collar, 'Featured Accessories', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 6));
 //                _listing=6;
 //                setState(() {
@@ -458,7 +583,7 @@ class _PetStorePageState extends State<PetStorePage>
               }),
             ]),
             TableRow(children: <Widget>[
-              _buildIcon('assets/icons/bowl.png', 'Pet Food', () {
+              _buildIcon(Assets.bowl, 'Pet Food', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 3));
 
 //                _listing=3;
@@ -469,7 +594,7 @@ class _PetStorePageState extends State<PetStorePage>
 //                  this._products.then((val) => _updateCount(val[0].total.toString()));
 //                });
               }),
-              _buildIcon('assets/icons/collar.png', 'Pet Accessories', () {
+              _buildIcon(Assets.collar, 'Pet Accessories', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 4));
 
 //                _listing=4;
@@ -482,10 +607,10 @@ class _PetStorePageState extends State<PetStorePage>
               }),
             ]),
             TableRow(children: <Widget>[
-              _buildIcon('assets/icons/shop-by-brand.png', 'Brands', () {
+              _buildIcon(Assets.shopByBrand, 'Brands', () {
                 CustomNavigator.baseNavigateTo(1, 1, 0);
               }),
-              _buildIcon('assets/icons/featured.png', 'Featured Products', () {
+              _buildIcon(Assets.featured, 'Featured Products', () {
                 CustomNavigator.navigateTo(context, ProductListing(listing: 2));
 
 //                _listing=2;
@@ -562,7 +687,7 @@ class _PetStorePageState extends State<PetStorePage>
         child: Table(
           children: <TableRow>[
             TableRow(children: <Widget>[
-              _buildIcon('assets/icons/bowl.png', '$name Food', () {
+              _buildIcon(Assets.bowl, '$name Food', () {
                 CustomNavigator.navigateTo(
                     context,
                     ProductListing(
@@ -585,7 +710,7 @@ class _PetStorePageState extends State<PetStorePage>
 //                }
 //                  );
               }),
-              _buildIcon('assets/icons/collar.png', '$name Accessories', () {
+              _buildIcon(Assets.collar, '$name Accessories', () {
                 CustomNavigator.navigateTo(
                     context,
                     ProductListing(
@@ -706,75 +831,29 @@ class _PetStorePageState extends State<PetStorePage>
         ]),
         onTap: onPressed);
   }
-}
 
-class _TabBar extends StatefulWidget {
-  final TabBar controller;
-
-  _TabBar({this.controller});
-
-  @override
-  __TabBarState createState() => __TabBarState();
-}
-
-class __TabBarState extends State<_TabBar> with TickerProviderStateMixin {
-  TabController controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller = TabController(vsync: this, length: _PetTypeMeta.all.length);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: SizedBox(
-            height: 70,
-            child: TabBar(
-              isScrollable: true,
-              labelStyle: TextStyle(fontSize: 9),
-              labelColor: Colors.grey.shade900,
-              indicatorColor: AppTheme.primaryColor,
-              controller: controller,
-              tabs: _PetTypeMeta.all.map((e) {
-                return Tab(
-                  text: e.title,
-                  icon: SizedBox(
-                    width: 35,
-                    height: 35,
-                    child: Center(
-                      child: e.icon != null
-                          ? Icon(
-                              e.icon,
-                              size: 30,
-                              color: AppTheme.primaryColor,
-                            )
-                          : Image.asset(
-                              e.image,
-                              width: 30,
-                              color: AppTheme.primaryColor,
-                            ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-      ),
-    ]);
-  }
-}
-
-class TabBarItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Tab(child: Column(children: []));
+  Widget tabBarButton(
+      {int index, IconData icon, String image, String title, int petTypeId}) {
+    return GestureDetector(
+        onTap: () {
+          if (index != 0 | 1) {
+            _listing = 10;
+            _petName = title;
+            this.petTypeId = petTypeId;
+            _category = '';
+          }
+          CustomNavigator.baseNavigateTo(1, index, 0);
+        },
+        child: AbsorbPointer(
+          child: Tab(
+//        iconMargin: EdgeInsets.zero,
+              icon: SizedBox(
+                  width: 45,
+                  child: icon != null
+                      ? Icon(icon, color: Theme.of(context).primaryColor, size: 43,)
+                      : Image.asset(image, color: Colors.primaries[0])),
+              child: Text(title,
+                  style: TextStyle(fontSize: 9, color: Colors.black))),
+        ));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:agent_pet/src/base/assets.dart';
 import 'package:agent_pet/src/widgets/appBar.dart';
 import 'package:agent_pet/src/widgets/bullet-point-widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +36,7 @@ class HowItWorks extends StatelessWidget {
                         Text("Pet Adoption",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
                         SizedBox(height: 20,),
                         Center(child: ClipRRect(child:
-                        Image.asset("assets/how-it-works-img1.jpg",scale: 3),
+                        Image.asset(Assets.howItWorks1, scale: 3),
                         borderRadius: BorderRadius.circular(10),)) ,
                         SizedBox(height: 20,),
 
@@ -51,7 +52,7 @@ class HowItWorks extends StatelessWidget {
                         SizedBox(height: 20,),
 
                         Center(child: ClipRRect(child:
-                        Image.asset("assets/how-it-works-img2.jpg",scale: 3),
+                        Image.asset(Assets.howItWorks2 ,scale: 3),
                           borderRadius: BorderRadius.circular(10),)) ,
                         SizedBox(height: 20,),
 
@@ -65,7 +66,7 @@ class HowItWorks extends StatelessWidget {
                         Text("Pet Relocaion Made Easy",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
                         SizedBox(height: 20,),
                         Center(child: ClipRRect(child:
-                        Image.asset("assets/how-it-works-img3.jpg",scale: 3),
+                        Image.asset(Assets.howItWorks3, scale: 3),
                           borderRadius: BorderRadius.circular(10),)) ,
                         SizedBox(height: 20,),
                         Text("Now along with your luggage you can move your pets too! You don’t have to say your good-byes or sell your beloved pets; all you have to do is contact our website Agentpet.com."),

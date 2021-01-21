@@ -8,6 +8,8 @@ import 'package:agent_pet/src/ui/views/home_view.dart';
 import 'package:agent_pet/src/ui/views/localized_view.dart';
 import 'package:agent_pet/src/widgets/cart-badged-icon.dart';
 import 'package:agent_pet/src/widgets/saved-badged-icon.dart';
+import 'package:agent_pet/src/pages/adopt-a-pet_page.dart';
+import 'package:agent_pet/src/pages/relocation_page.dart';
 
 class HomePage extends StatelessWidget {
   final _controller = PageController(initialPage: 0);
@@ -15,7 +17,7 @@ class HomePage extends StatelessWidget {
   static const _shiftCurve = Curves.ease;
   static const _shiftDuration = Duration(milliseconds: 500);
 
-  static final _views = [HomeView(), PetStorePage()];
+  static final _views = [HomeView(), PetStorePage(), AdoptAPet(), Relocation()];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class HomePage extends StatelessWidget {
         extendBody: true,
         appBar: AppBar(
           centerTitle: true,
-          actions: [CartButtonBadged(), FavoriteButtonBadged()],
+          actions: [CartBadgedIcon(), SavedBadgeIcon()],
           title: Image.asset(Assets.logo, fit: BoxFit.cover, scale: 8)
         ),
         body: PageView(

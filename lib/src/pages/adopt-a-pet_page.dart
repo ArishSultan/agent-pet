@@ -1,3 +1,4 @@
+import 'package:agent_pet/src/base/assets.dart';
 import 'package:agent_pet/src/pages/pets-listing/pet-listing_page.dart';
 import 'package:agent_pet/src/pages/pet-relocation/main-pet-relocation.dart';
 import 'package:agent_pet/src/utils/custom-navigator.dart';
@@ -58,7 +59,7 @@ class AdoptAPet extends StatelessWidget {
                     height: 10,
                   ),
                   ClipRRect(child:
-                  Image.asset("assets/how-it-works-img1.jpg",scale: 3),
+                  Image.asset(Assets.howItWorks1, scale: 3),
                     borderRadius: BorderRadius.circular(10),),
                   SizedBox(height: 10,),
                   Center(child: Text("Ready to add a new love to your family? There are so many wonderful pets in your community waiting for loving homes.Put your love into action by adopting today - and spread the word that adoption is the way to go.",style: TextStyle(

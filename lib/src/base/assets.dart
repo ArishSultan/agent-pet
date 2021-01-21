@@ -1,6 +1,22 @@
 abstract class Assets {
   static const logo = 'assets/agent_pet_logo.webp';
 
+  /// Social Icons
+  static const googleLogo = 'assets/social/google_logo.webp';
+  static const facebookLogo = 'assets/social/facebook_logo.webp';
+
+  static const newIcon = 'assets/icons/new.webp';
+  static const popular = 'assets/icons/popular.webp';
+  static const bowl = 'assets/icons/bowl.webp';
+  static const collar = 'assets/icons/collar.webp';
+  static const featured = 'assets/icons/featured.webp';
+
+  /// How it works;
+  static const howItWorks1 = 'assets/how_it_works_img1.jpg';
+  static const howItWorks2 = 'assets/how_it_works_img2.jpg';
+  static const howItWorks3 = 'assets/how_it_works_img3.jpg';
+  static const howItWorks4 = 'assets/how_it_works_img4.jpg';
+
   /// Drawer Icons
   static const addPet = 'assets/icons/cat_add_pet.webp';
   static const buySell = 'assets/icons/buy_sell_icon.webp';

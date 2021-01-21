@@ -14,7 +14,7 @@ class CartButtonBadged extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () => AppNavigation.toPage(context, AppPage.cart),
-      icon: Badge.numbered(number: 1, child: Icon(CupertinoIcons.cart)),
+      icon: Badge.numbered(number: LocalData.getCart().length, child: Icon(CupertinoIcons.cart)),
     );
   }
 }
