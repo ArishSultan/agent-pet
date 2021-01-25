@@ -30,7 +30,10 @@ abstract class AppTheme {
   static final extendedPrimaryTextButton = TextButton.styleFrom(
     primary: Colors.white,
     backgroundColor: primaryColor,
-    minimumSize: Size.fromHeight(40),
-    textStyle: TextStyle(fontWeight: FontWeight.bold),
+    minimumSize: Size.fromHeight(45),
+    textStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontFamily: 'SourceSansPro',
+    ),
   );
 }
