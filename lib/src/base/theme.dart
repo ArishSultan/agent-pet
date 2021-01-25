@@ -26,4 +26,11 @@ abstract class AppTheme {
       ),
     ),
   );
+
+  static final extendedPrimaryTextButton = TextButton.styleFrom(
+    primary: Colors.white,
+    backgroundColor: primaryColor,
+    minimumSize: Size.fromHeight(40),
+    textStyle: TextStyle(fontWeight: FontWeight.bold),
+  );
 }
