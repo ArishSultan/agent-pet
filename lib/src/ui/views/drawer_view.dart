@@ -1,4 +1,5 @@
 import 'package:agent_pet/src/base/assets.dart';
+import 'package:agent_pet/src/base/nav.dart';
 import 'package:agent_pet/src/base/theme.dart';
 import 'package:agent_pet/src/pages/add-or-edit-pet/main-add-or-edit-pet.dart';
 import 'package:agent_pet/src/pages/how-it-works_page.dart';
@@ -210,9 +211,7 @@ class _DrawerViewState extends State<DrawerView> {
           DrawerTile(
             icon: Icon(CupertinoIcons.mail, color: Colors.grey.shade700),
             title: 'Contact Us',
-            onPressed: () {
-              CustomNavigator.navigateTo(context, ContactUsPage());
-            },
+            onPressed: () => AppNavigation.toPage(context, AppPage.contactUs),
           ),
         ]),
       ),
