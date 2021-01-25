@@ -3,6 +3,7 @@ import 'package:agent_pet/src/pages/pet-relocation/main-pet-relocation.dart';
 import 'package:agent_pet/src/pages/pet-relocation/pet_relocation-data.dart';
 import 'package:agent_pet/src/pages/pets-and-vets_page.dart';
 import 'package:agent_pet/src/pages/profile/saved_ads-page.dart';
+import 'package:agent_pet/src/ui/pages/contact-us_page.dart';
 import 'package:agent_pet/src/ui/pages/home_page.dart';
 import 'package:agent_pet/src/pages/pets-listing/pet-listing_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ class AppPage {
   static const cart = AppPage._('/cart');
   static const allPets = AppPage._('/all-pets');
   static const favorites = AppPage._('/favorites');
+  static const contactUs = AppPage._('/contact-us');
   static const featuredPets = AppPage._('/featured-pets');
   static const newlyAddedPets = AppPage._('/newly-added-pets');
   static const petsForAdoption = AppPage._('/pets-for-adoption');
@@ -45,8 +47,8 @@ abstract class AppNavigation {
     AppPage.home._name: (context) => HomePage(),
     AppPage.cart._name: (context) => CartPage(),
     AppPage.allPets._name: (context) => PetListing(),
-    /// TODO: Change Name of Page.
     AppPage.favorites._name: (context) => SavedAds(),
+    AppPage.contactUs._name: (context) => ContactUsPage(),
     AppPage.petAndVet._name: (context) => PetAndVetPage(),
     AppPage.featuredPets._name: (context) => PetListing(listing: 4),
     AppPage.petRelocation._name: (context) => PetRelocationPage(),
